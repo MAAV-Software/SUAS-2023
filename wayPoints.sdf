@@ -1,0 +1,94 @@
+<sdf version='1.7'>
+<world name='default'>
+<light name='user_way_Point_0' type='point'>
+	<pose>0 0 0 0 -0 0</pose>
+	<diffuse>0.5 0.5 0.5 1</diffuse>
+	<specular>0.1 0.1 0.1 1</specular>
+	<attenuation>
+		<range>20</range>
+		<constant>0.5</constant>
+		<linear>0.01</linear>
+		<quadratic>0.001</quadratic>
+	</attenuation>
+	<cast_shadows>0</cast_shadows>
+	<direction>0 0 -1</direction>
+	<spot>
+		<inner_angle>0</inner_angle>
+		<outer_angle>0</outer_angle>
+		<falloff>0</falloff>
+	</spot>
+</light>
+<light name='user_way_Point_1' type='point'>
+	<pose>1362.186295389882 -6292.374443167897 123.74304357465894 0 -0 0</pose>
+	<diffuse>0.5 0.5 0.5 1</diffuse>
+	<specular>0.1 0.1 0.1 1</specular>
+	<attenuation>
+		<range>20</range>
+		<constant>0.5</constant>
+		<linear>0.01</linear>
+		<quadratic>0.001</quadratic>
+	</attenuation>
+	<cast_shadows>0</cast_shadows>
+	<direction>0 0 -1</direction>
+	<spot>
+		<inner_angle>0</inner_angle>
+		<outer_angle>0</outer_angle>
+		<falloff>0</falloff>
+	</spot>
+</light>
+<light name='user_way_Point_2' type='point'>
+	<pose>-3822.182515402533 -558.9606318302884 104.51988782984358 0 -0 0</pose>
+	<diffuse>0.5 0.5 0.5 1</diffuse>
+	<specular>0.1 0.1 0.1 1</specular>
+	<attenuation>
+		<range>20</range>
+		<constant>0.5</constant>
+		<linear>0.01</linear>
+		<quadratic>0.001</quadratic>
+	</attenuation>
+	<cast_shadows>0</cast_shadows>
+	<direction>0 0 -1</direction>
+	<spot>
+		<inner_angle>0</inner_angle>
+		<outer_angle>0</outer_angle>
+		<falloff>0</falloff>
+	</spot>
+</light>
+<light name='user_way_Point_3' type='point'>
+	<pose>1421.9889085479053 1147.9694708177296 116.87273937155463 0 -0 0</pose>
+	<diffuse>0.5 0.5 0.5 1</diffuse>
+	<specular>0.1 0.1 0.1 1</specular>
+	<attenuation>
+		<range>20</range>
+		<constant>0.5</constant>
+		<linear>0.01</linear>
+		<quadratic>0.001</quadratic>
+	</attenuation>
+	<cast_shadows>0</cast_shadows>
+	<direction>0 0 -1</direction>
+	<spot>
+		<inner_angle>0</inner_angle>
+		<outer_angle>0</outer_angle>
+		<falloff>0</falloff>
+	</spot>
+</light>
+<light name='user_way_Point_4' type='point'>
+	<pose>37.95872545774845 -192.37785010982648 115.93341277086742 0 -0 0</pose>
+	<diffuse>0.5 0.5 0.5 1</diffuse>
+	<specular>0.1 0.1 0.1 1</specular>
+	<attenuation>
+		<range>20</range>
+		<constant>0.5</constant>
+		<linear>0.01</linear>
+		<quadratic>0.001</quadratic>
+	</attenuation>
+	<cast_shadows>0</cast_shadows>
+	<direction>0 0 -1</direction>
+	<spot>
+		<inner_angle>0</inner_angle>
+		<outer_angle>0</outer_angle>
+		<falloff>0</falloff>
+	</spot>
+</light>
+</world>
+</sdf>
