@@ -216,7 +216,66 @@ f.write("</spherical_coordinates>\n")
 
 
 for i in range(0, len(way_points)):
-    f.write("<model name='user_way_Point_" + str(i) + "' type='sphere'>\n")
+    f.write("<model name='user_way_Point_" + str(i) + "'>\n")
+
+
+    # f.write("\t<pose>" + str(25) + " " + str(25) + " " + str(25) + " 0 -0 0</pose>\n")
+    f.write("\t<pose>" + str(way_points[i][0]*111194.9) + " " + str(way_points[i][1]*111194.9) + " " + str(way_points[i][2]) + " 0 -0 0</pose>\n")
+
+    f.write("<link name='link'>\n")
+    f.write("\t<inertial>\n")
+    f.write("\t<mass>1</mass>\n")
+    f.write("\t<inertia>\n")
+    f.write("\t\t<ixx>0.0001</ixx>\n")
+    f.write("\t\t<ixy>0</ixy>\n")
+    f.write("\t\t<ixz>0</ixz>\n")
+    f.write("\t\t<iyy>0.0001</iyy>\n")
+    f.write("\t\t<iyz>0</iyz>\n")
+    f.write("\t\t<izz>0.0001</izz>\n")
+    f.write("\t</inertia>\n")
+    f.write("<pose> 0 0 0 0 -0 0</pose>\n")
+    f.write("</inertial>\n")
+    f.write("<collision name='collision'>\n")
+    f.write("\t<geometry>\n")
+    f.write("\t\t<sphere>\n")
+    f.write("\t\t\t<radius>25</radius>\n")
+    f.write("\t\t</sphere>\n")
+    f.write("\t</geometry>\n")
+    f.write("\t<surface>\n")
+    f.write("\t\t<contact>\n")
+    f.write("\t\t\t<ode/>\n")
+    f.write("\t\t</contact>\n")
+    f.write("\t\t<bounce/>\n")
+    f.write("\t\t<friction>\n")
+    f.write("\t\t\t<torsional>\n")
+    f.write("\t\t\t\t<ode/>\n")
+    f.write("\t\t\t</torsional>\n")
+    f.write("\t\t\t<ode/>\n")
+    f.write("\t\t</friction>\n")
+    f.write("\t</surface>\n")
+    f.write("</collision>\n")
+    f.write("<visual name='visual'>\n")
+    f.write("\t<geometry>\n")
+    f.write("\t\t<sphere>\n")
+    f.write("\t\t\t<radius>25</radius>\n")
+    f.write("\t\t</sphere>\n")
+    f.write("\t</geometry>\n")
+    f.write("\t<material>\n")
+    f.write("\t\t<script>\n")
+    f.write("\t\t\t<name>Gazebo/Blue</name>\n")
+    f.write("\t\t\t<uri>file://media/materials/scripts/gazebo.material</uri>\n")
+    f.write("\t\t</script>\n")
+    f.write("\t</material>\n")
+    f.write("</visual>\n")
+    f.write("<self_collide>0</self_collide>\n")
+    f.write("<enable_wind>0</enable_wind>\n")
+    f.write("<kinematic>0</kinematic>\n")
+    f.write("</link>\n")
+    f.write("</model>\n")
+
+
+
+
     # <spherical_coordinates>
     #   <surface_model>EARTH_WGS84</surface_model>
     #   <latitude_deg>0</latitude_deg>
@@ -224,14 +283,14 @@ for i in range(0, len(way_points)):
     #   <elevation>0</elevation>
     #   <heading_deg>0</heading_deg>
     # </spherical_coordinates>
-    f.write("\t<spherical_coordinates>\n")
-    # f.write("\t\t<surface_model>EARTH_WGS84</surface_model>\n")
-    # f.write("\t\t<world_frame_orientation>ENU</world_frame_orientation>\n")
-    f.write("\t\t<latitude_deg>" + str(-22.9) + "</latitude_deg>\n")
-    f.write("\t\t<longitude_deg>" + str(-43.2) + "</longitude_deg>\n")
-    f.write("\t\t<elevation>" + str(0) + "</elevation>\n")
-    # f.write("\t\t<heading_deg>0</heading_deg>\n")
-    f.write("\t</spherical_coordinates>\n")
+    # f.write("\t<spherical_coordinates>\n")
+    # # f.write("\t\t<surface_model>EARTH_WGS84</surface_model>\n")
+    # # f.write("\t\t<world_frame_orientation>ENU</world_frame_orientation>\n")
+    # f.write("\t\t<latitude_deg>" + str(-22.9) + "</latitude_deg>\n")
+    # f.write("\t\t<longitude_deg>" + str(-43.2) + "</longitude_deg>\n")
+    # f.write("\t\t<elevation>" + str(0) + "</elevation>\n")
+    # # f.write("\t\t<heading_deg>0</heading_deg>\n")
+    # f.write("\t</spherical_coordinates>\n")
 
 
 
@@ -264,7 +323,6 @@ for i in range(0, len(way_points)):
 
 
     # f.write("\t<size>0</size>\n")
-    # f.write("\t<pose>" + str(25) + " " + str(25) + " " + str(25) + " 0 -0 0</pose>\n")
 
     # f.write("\t<pose>" + str(way_points[i][0]*111194.9) + " " + str(way_points[i][1]*111194.9) + " " + str(way_points[i][2]) + " 0 -0 0</pose>\n")
     # f.write("\t<diffuse>0.5 0.5 0.5 1</diffuse>\n")
@@ -282,7 +340,7 @@ for i in range(0, len(way_points)):
     # f.write("\t\t<outer_angle>0</outer_angle>\n")
     # f.write("\t\t<falloff>0</falloff>\n")
     # f.write("\t</spot>\n")
-    f.write("</model>\n")
+    # f.write("</model>\n")
     
 # f.write(str(way_points))
 # print(way_points)

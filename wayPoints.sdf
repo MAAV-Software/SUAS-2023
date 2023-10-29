@@ -145,82 +145,317 @@
 	<elevation>0</elevation>
 	<heading_deg>0</heading_deg>
 </spherical_coordinates>
-<model name='user_way_Point_0' type='sphere'>
-	<spherical_coordinates>
-		<latitude_deg>-22.9</latitude_deg>
-		<longitude_deg>-43.2</longitude_deg>
-		<elevation>0</elevation>
-	</spherical_coordinates>
+<model name='user_way_Point_0'>
+	<pose>0.0 0.0 0 0 -0 0</pose>
+<link name='link'>
+	<inertial>
+	<mass>1</mass>
+	<inertia>
+		<ixx>0.0001</ixx>
+		<ixy>0</ixy>
+		<ixz>0</ixz>
+		<iyy>0.0001</iyy>
+		<iyz>0</iyz>
+		<izz>0.0001</izz>
+	</inertia>
+<pose> 0 0 0 0 -0 0</pose>
+</inertial>
+<collision name='collision'>
+	<geometry>
+		<sphere>
+			<radius>25</radius>
+		</sphere>
+	</geometry>
+	<surface>
+		<contact>
+			<ode/>
+		</contact>
+		<bounce/>
+		<friction>
+			<torsional>
+				<ode/>
+			</torsional>
+			<ode/>
+		</friction>
+	</surface>
+</collision>
+<visual name='visual'>
+	<geometry>
+		<sphere>
+			<radius>25</radius>
+		</sphere>
+	</geometry>
+	<material>
+		<script>
+			<name>Gazebo/Blue</name>
+			<uri>file://media/materials/scripts/gazebo.material</uri>
+		</script>
+	</material>
+</visual>
+<self_collide>0</self_collide>
+<enable_wind>0</enable_wind>
+<kinematic>0</kinematic>
+</link>
 </model>
-<model name='user_way_Point_1' type='sphere'>
-	<spherical_coordinates>
-		<latitude_deg>-22.9</latitude_deg>
-		<longitude_deg>-43.2</longitude_deg>
-		<elevation>0</elevation>
-	</spherical_coordinates>
+<model name='user_way_Point_1'>
+	<pose>46.36187542244411 -965.800045852433 104.21089139083931 0 -0 0</pose>
+<link name='link'>
+	<inertial>
+	<mass>1</mass>
+	<inertia>
+		<ixx>0.0001</ixx>
+		<ixy>0</ixy>
+		<ixz>0</ixz>
+		<iyy>0.0001</iyy>
+		<iyz>0</iyz>
+		<izz>0.0001</izz>
+	</inertia>
+<pose> 0 0 0 0 -0 0</pose>
+</inertial>
+<collision name='collision'>
+	<geometry>
+		<sphere>
+			<radius>25</radius>
+		</sphere>
+	</geometry>
+	<surface>
+		<contact>
+			<ode/>
+		</contact>
+		<bounce/>
+		<friction>
+			<torsional>
+				<ode/>
+			</torsional>
+			<ode/>
+		</friction>
+	</surface>
+</collision>
+<visual name='visual'>
+	<geometry>
+		<sphere>
+			<radius>25</radius>
+		</sphere>
+	</geometry>
+	<material>
+		<script>
+			<name>Gazebo/Blue</name>
+			<uri>file://media/materials/scripts/gazebo.material</uri>
+		</script>
+	</material>
+</visual>
+<self_collide>0</self_collide>
+<enable_wind>0</enable_wind>
+<kinematic>0</kinematic>
+</link>
 </model>
-<model name='user_way_Point_2' type='sphere'>
-	<spherical_coordinates>
-		<latitude_deg>-22.9</latitude_deg>
-		<longitude_deg>-43.2</longitude_deg>
-		<elevation>0</elevation>
-	</spherical_coordinates>
+<model name='user_way_Point_2'>
+	<pose>-145.23736869781266 -1913.538871539021 116.3252115820344 0 -0 0</pose>
+<link name='link'>
+	<inertial>
+	<mass>1</mass>
+	<inertia>
+		<ixx>0.0001</ixx>
+		<ixy>0</ixy>
+		<ixz>0</ixz>
+		<iyy>0.0001</iyy>
+		<iyz>0</iyz>
+		<izz>0.0001</izz>
+	</inertia>
+<pose> 0 0 0 0 -0 0</pose>
+</inertial>
+<collision name='collision'>
+	<geometry>
+		<sphere>
+			<radius>25</radius>
+		</sphere>
+	</geometry>
+	<surface>
+		<contact>
+			<ode/>
+		</contact>
+		<bounce/>
+		<friction>
+			<torsional>
+				<ode/>
+			</torsional>
+			<ode/>
+		</friction>
+	</surface>
+</collision>
+<visual name='visual'>
+	<geometry>
+		<sphere>
+			<radius>25</radius>
+		</sphere>
+	</geometry>
+	<material>
+		<script>
+			<name>Gazebo/Blue</name>
+			<uri>file://media/materials/scripts/gazebo.material</uri>
+		</script>
+	</material>
+</visual>
+<self_collide>0</self_collide>
+<enable_wind>0</enable_wind>
+<kinematic>0</kinematic>
+</link>
 </model>
-<model name='user_way_Point_3' type='sphere'>
-	<spherical_coordinates>
-		<latitude_deg>-22.9</latitude_deg>
-		<longitude_deg>-43.2</longitude_deg>
-		<elevation>0</elevation>
-	</spherical_coordinates>
+<model name='user_way_Point_3'>
+	<pose>-541.6378059079439 -2795.4605491503976 113.39582725274246 0 -0 0</pose>
+<link name='link'>
+	<inertial>
+	<mass>1</mass>
+	<inertia>
+		<ixx>0.0001</ixx>
+		<ixy>0</ixy>
+		<ixz>0</ixz>
+		<iyy>0.0001</iyy>
+		<iyz>0</iyz>
+		<izz>0.0001</izz>
+	</inertia>
+<pose> 0 0 0 0 -0 0</pose>
+</inertial>
+<collision name='collision'>
+	<geometry>
+		<sphere>
+			<radius>25</radius>
+		</sphere>
+	</geometry>
+	<surface>
+		<contact>
+			<ode/>
+		</contact>
+		<bounce/>
+		<friction>
+			<torsional>
+				<ode/>
+			</torsional>
+			<ode/>
+		</friction>
+	</surface>
+</collision>
+<visual name='visual'>
+	<geometry>
+		<sphere>
+			<radius>25</radius>
+		</sphere>
+	</geometry>
+	<material>
+		<script>
+			<name>Gazebo/Blue</name>
+			<uri>file://media/materials/scripts/gazebo.material</uri>
+		</script>
+	</material>
+</visual>
+<self_collide>0</self_collide>
+<enable_wind>0</enable_wind>
+<kinematic>0</kinematic>
+</link>
 </model>
-<model name='user_way_Point_4' type='sphere'>
-	<spherical_coordinates>
-		<latitude_deg>-22.9</latitude_deg>
-		<longitude_deg>-43.2</longitude_deg>
-		<elevation>0</elevation>
-	</spherical_coordinates>
+<model name='user_way_Point_4'>
+	<pose>73.36487771131495 -3541.577732441573 110.57906943141056 0 -0 0</pose>
+<link name='link'>
+	<inertial>
+	<mass>1</mass>
+	<inertia>
+		<ixx>0.0001</ixx>
+		<ixy>0</ixy>
+		<ixz>0</ixz>
+		<iyy>0.0001</iyy>
+		<iyz>0</iyz>
+		<izz>0.0001</izz>
+	</inertia>
+<pose> 0 0 0 0 -0 0</pose>
+</inertial>
+<collision name='collision'>
+	<geometry>
+		<sphere>
+			<radius>25</radius>
+		</sphere>
+	</geometry>
+	<surface>
+		<contact>
+			<ode/>
+		</contact>
+		<bounce/>
+		<friction>
+			<torsional>
+				<ode/>
+			</torsional>
+			<ode/>
+		</friction>
+	</surface>
+</collision>
+<visual name='visual'>
+	<geometry>
+		<sphere>
+			<radius>25</radius>
+		</sphere>
+	</geometry>
+	<material>
+		<script>
+			<name>Gazebo/Blue</name>
+			<uri>file://media/materials/scripts/gazebo.material</uri>
+		</script>
+	</material>
+</visual>
+<self_collide>0</self_collide>
+<enable_wind>0</enable_wind>
+<kinematic>0</kinematic>
+</link>
 </model>
-<model name='user_way_Point_5' type='sphere'>
-	<spherical_coordinates>
-		<latitude_deg>-22.9</latitude_deg>
-		<longitude_deg>-43.2</longitude_deg>
-		<elevation>0</elevation>
-	</spherical_coordinates>
-</model>
-<model name='user_way_Point_6' type='sphere'>
-	<spherical_coordinates>
-		<latitude_deg>-22.9</latitude_deg>
-		<longitude_deg>-43.2</longitude_deg>
-		<elevation>0</elevation>
-	</spherical_coordinates>
-</model>
-<model name='user_way_Point_7' type='sphere'>
-	<spherical_coordinates>
-		<latitude_deg>-22.9</latitude_deg>
-		<longitude_deg>-43.2</longitude_deg>
-		<elevation>0</elevation>
-	</spherical_coordinates>
-</model>
-<model name='user_way_Point_8' type='sphere'>
-	<spherical_coordinates>
-		<latitude_deg>-22.9</latitude_deg>
-		<longitude_deg>-43.2</longitude_deg>
-		<elevation>0</elevation>
-	</spherical_coordinates>
-</model>
-<model name='user_way_Point_9' type='sphere'>
-	<spherical_coordinates>
-		<latitude_deg>-22.9</latitude_deg>
-		<longitude_deg>-43.2</longitude_deg>
-		<elevation>0</elevation>
-	</spherical_coordinates>
-</model>
-<model name='user_way_Point_10' type='sphere'>
-	<spherical_coordinates>
-		<latitude_deg>-22.9</latitude_deg>
-		<longitude_deg>-43.2</longitude_deg>
-		<elevation>0</elevation>
-	</spherical_coordinates>
+<model name='user_way_Point_5'>
+	<pose>23.67737304498081 -2575.9430686368396 115.25738006129262 0 -0 0</pose>
+<link name='link'>
+	<inertial>
+	<mass>1</mass>
+	<inertia>
+		<ixx>0.0001</ixx>
+		<ixy>0</ixy>
+		<ixz>0</ixz>
+		<iyy>0.0001</iyy>
+		<iyz>0</iyz>
+		<izz>0.0001</izz>
+	</inertia>
+<pose> 0 0 0 0 -0 0</pose>
+</inertial>
+<collision name='collision'>
+	<geometry>
+		<sphere>
+			<radius>25</radius>
+		</sphere>
+	</geometry>
+	<surface>
+		<contact>
+			<ode/>
+		</contact>
+		<bounce/>
+		<friction>
+			<torsional>
+				<ode/>
+			</torsional>
+			<ode/>
+		</friction>
+	</surface>
+</collision>
+<visual name='visual'>
+	<geometry>
+		<sphere>
+			<radius>25</radius>
+		</sphere>
+	</geometry>
+	<material>
+		<script>
+			<name>Gazebo/Blue</name>
+			<uri>file://media/materials/scripts/gazebo.material</uri>
+		</script>
+	</material>
+</visual>
+<self_collide>0</self_collide>
+<enable_wind>0</enable_wind>
+<kinematic>0</kinematic>
+</link>
 </model>
 </world>
 </sdf>
