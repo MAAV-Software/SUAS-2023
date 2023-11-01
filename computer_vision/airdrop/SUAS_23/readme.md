@@ -19,3 +19,23 @@
 After the first install, you just need to run steps 3 and 4 for running anything in the future
 
 If you want to install any additional packages, run: `pipenv install <package name>` just like you would for pip. For example, `pip install opencv-python` is now `pipenv install opencv-python`
+
+## Running tests
+
+Pytest usage is documente [here](https://docs.pytest.org/en/6.2.x/usage.html)
+
+- Run all tests: `pytest`
+- With verbose output: `pytest -v`
+- Run tests from a specifc file: `pytest -v test_recognition.py`
+- **Note:** Parametrized test labels are generated as "[Shape-Symbol-Color]", so you can use the -k flag to select the tests you want
+  - For ambiguous labels, eg "Circle" might select "Circle" and "Semi_Circle", you can use the "[" to differentiate between them
+  - Circle would be labelled as: "[Circle-Symbol-Color]"
+  - Semi_Circle would be labelled as: "[Semi_Circle-Symbol-Color]"
+  - so "[Circle" would only pick up "[Circle-Symbol-Color]"
+- Run only specific combinations of tests, for example for detection:
+  - Only for the color Blue: `pytest -v test_recognition.py -k "Blue"`
+  - Only for the symbol A: `pytest -v test_recognition.py -k "sym_A"`
+  - Only for the shape Triangle: `pytest -v test_recognition.py -k "Triangle"`
+  - Only for the shape Circle: `pytest -v test_recognition.py -k "[Circle"`
+    - Note the "[" before Circle so it isnt confused with Semi_Circle
+  - Blue and Semicircle : `pytest -v test_recognition.py -k "Semi_Circle and Blue"`
