@@ -92,7 +92,7 @@ def save_random_color_image(filename, img_h, img_w):
     img.save(filename)
 
 
-def generate_img(shape, color, symbol):
+def generate_img(color, symbol, shape):
     img_h = 500
     img_w = 500
     selected_shape = shape
@@ -120,11 +120,11 @@ def generate_img(shape, color, symbol):
     if selected_shape == "Circle":
         draw.ellipse([center[0]-radius, center[1]-radius,
                      center[0]+radius, center[1]+radius], fill=selected_color)
-    elif selected_shape == "Semi-Circle":
+    elif selected_shape == "Semi_Circle":
         center = (0.5*img_w, 0.35*img_h)
         draw.pieslice([center[0]-radius, center[1]-radius, center[0] +
                       radius, center[1]+radius], 0, 180, fill=selected_color)
-    elif selected_shape == "Quarter_circle":
+    elif selected_shape == "Quarter_Circle":
         center = (0.325*img_w, 0.35*img_h)
         draw.pieslice([center[0]-radius, center[1]-radius, center[0] +
                       radius, center[1]+radius], 0, 90, fill=selected_color)
