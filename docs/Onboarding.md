@@ -1,4 +1,4 @@
-# MAAV Software Onboarding Project 2022
+# MAAV Software Onboarding Project 2023-24
 
 This document describes the onboarding project for new software members. This project focuses on developing an understanding of how the Gazebo simulation environment works, solid ROS skills, and the interface between ROS and the PX4 flight controller. Collaboration with others is highly encouraged and expected. 
 
@@ -7,14 +7,14 @@ There are three main parts to the onboarding project:
 - `Trajectory Following` - Building off simple waypoint following, trajectory following allows the drone to follow much more complicated paths. This part should be completed by members interested in the control and navigation of the drone.
 - `Simple computer vision` - This task will require the drone to make simple decisions based on its sensor input from a depth camera. The depth camera will be added to the drone in the Gazebo simulator. This part should be completed by members interested in compter vision.
 
-By the end of this onboarding project, you'll have the skills necesarry to be able to work on code directly for our vehicle! If you have absoluely any issues or questions throughout this process please reach out to me (Drew) and we can work through it together!
+By the end of this onboarding project, you'll have the skills necesarry to be able to work on code directly for our vehicle! If you have absoluely any issues or questions throughout this process please reach out to me (Mehmed) and we can work through it together!
 
 **NOTE**: It is expected that you have completed the [ROS tutorials](http://wiki.ros.org/ROS/Tutorials) in C++ before beginning this onboarding project.
 
 Happy coding!
 
 ## Git and version control
-To get you familiar with git, we would for you to create your own branch off of the current master branch to keep track of your code. Please follow the naming conventions of your branch to follow the format `[uniqname]/[branch_name]` (i.e drewskis/onboarding). 
+To get you familiar with git, we would for you to create your own branch off of the current master branch to keep track of your code. Please follow the naming conventions of your branch to follow the format `[uniqname]/[branch_name]` (i.e mulduag/onboarding). 
 
 Please refer to  [these git resources](../README.md) for more information about git. You can never commit/push too much so please do so often!
 
