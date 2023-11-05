@@ -198,7 +198,7 @@
 </link>
 </model>
 <model name='user_way_Point_1'>
-	<pose>46.36187542244411 -965.800045852433 104.21089139083931 0 -0 0</pose>
+	<pose>-786.5787672391831 178.8826459352121 114.54139943138827 0 -0 0</pose>
 <link name='link'>
 	<inertial>
 	<mass>1</mass>
@@ -250,7 +250,7 @@
 </link>
 </model>
 <model name='user_way_Point_2'>
-	<pose>-145.23736869781266 -1913.538871539021 116.3252115820344 0 -0 0</pose>
+	<pose>-422.60719072822764 898.7644791694577 111.97651317184489 0 -0 0</pose>
 <link name='link'>
 	<inertial>
 	<mass>1</mass>
@@ -302,7 +302,7 @@
 </link>
 </model>
 <model name='user_way_Point_3'>
-	<pose>-541.6378059079439 -2795.4605491503976 113.39582725274246 0 -0 0</pose>
+	<pose>-959.0791573220388 1501.178788639255 119.81634487020273 0 -0 0</pose>
 <link name='link'>
 	<inertial>
 	<mass>1</mass>
@@ -354,7 +354,7 @@
 </link>
 </model>
 <model name='user_way_Point_4'>
-	<pose>73.36487771131495 -3541.577732441573 110.57906943141056 0 -0 0</pose>
+	<pose>-966.8743515162072 694.5534647296596 100.8394146923829 0 -0 0</pose>
 <link name='link'>
 	<inertial>
 	<mass>1</mass>
@@ -406,7 +406,59 @@
 </link>
 </model>
 <model name='user_way_Point_5'>
-	<pose>23.67737304498081 -2575.9430686368396 115.25738006129262 0 -0 0</pose>
+	<pose>-214.4651393542729 985.3893927293549 121.60716548805304 0 -0 0</pose>
+<link name='link'>
+	<inertial>
+	<mass>1</mass>
+	<inertia>
+		<ixx>0.0001</ixx>
+		<ixy>0</ixy>
+		<ixz>0</ixz>
+		<iyy>0.0001</iyy>
+		<iyz>0</iyz>
+		<izz>0.0001</izz>
+	</inertia>
+<pose> 0 0 0 0 -0 0</pose>
+</inertial>
+<collision name='collision'>
+	<geometry>
+		<sphere>
+			<radius>25</radius>
+		</sphere>
+	</geometry>
+	<surface>
+		<contact>
+			<ode/>
+		</contact>
+		<bounce/>
+		<friction>
+			<torsional>
+				<ode/>
+			</torsional>
+			<ode/>
+		</friction>
+	</surface>
+</collision>
+<visual name='visual'>
+	<geometry>
+		<sphere>
+			<radius>25</radius>
+		</sphere>
+	</geometry>
+	<material>
+		<script>
+			<name>Gazebo/Blue</name>
+			<uri>file://media/materials/scripts/gazebo.material</uri>
+		</script>
+	</material>
+</visual>
+<self_collide>0</self_collide>
+<enable_wind>0</enable_wind>
+<kinematic>0</kinematic>
+</link>
+</model>
+<model name='user_way_Point_6'>
+	<pose>-861.0498537758451 1467.7102132111518 115.25629806013751 0 -0 0</pose>
 <link name='link'>
 	<inertial>
 	<mass>1</mass>

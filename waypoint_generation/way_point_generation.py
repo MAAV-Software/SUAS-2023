@@ -1,5 +1,6 @@
 import random
 import math
+import pyproj
 starting_coord = (0, 0, 0) # degree starting position plus height
 # total_way_points = 10
 total_distance = 3/69 # 3 miles in degrees (1 degree = 69 miles)
@@ -18,12 +19,12 @@ for i in range(1, howMany+1): #run through are total points
     # y = random.uniform(-total_distance/2, total_distance/2)
     radius = step
     angle = random.uniform(0, 2*3.14159)
-    x = way_points[i-1][0]+ (radius * math.cos(angle))
-    y =  way_points[i-1][1]+ radius * math.sin(angle)
+    long = way_points[i-1][0]+ (radius * math.cos(angle))
+    lat =  way_points[i-1][1]+ radius * math.sin(angle)
 
     height = random.uniform(minHeight, maxHeight)
-    way_points.append((x, y, height))
-    distance += (((abs(x)-abs(way_points[i-1][0]))**2+(abs(y)-abs(way_points[i-1][1]))**2)**0.5) #subtract the distance between the two points from the total distance so that we stay within 10
+    way_points.append((long, lat, height))
+    distance += (((abs(long)-abs(way_points[i-1][0]))**2+(abs(lat)-abs(way_points[i-1][1]))**2)**0.5) #subtract the distance between the two points from the total distance so that we stay within 10
     # print(total_distance*69)
 # print(total_distance*69)
 # print(distance*69)
@@ -57,6 +58,12 @@ for i in range(1, howMany+1): #run through are total points
 #         <falloff>0</falloff>
 #       </spot>
 #     </light>
+f = open("way_points.txt", "w")
+f.write("Total path length: " + str(distance*69) + " miles\n")
+f.write("Total points: " + str(len(way_points)) + "\n")
+for i in range(0, len(way_points)):
+    f.write(str(way_points[i][0]) + " " + str(way_points[i][1]) + " " + str(way_points[i][2]) + "\n")
+f.close()
 
 
 f = open("wayPoints.sdf", "w")
@@ -212,15 +219,19 @@ f.write("</spherical_coordinates>\n")
 
 
 
-
+source_proj = pyproj.Proj(init='epsg:4326')  # WGS84
+target_proj = pyproj.Proj(init='epsg:3857') 
 
 
 for i in range(0, len(way_points)):
     f.write("<model name='user_way_Point_" + str(i) + "'>\n")
 
-
     # f.write("\t<pose>" + str(25) + " " + str(25) + " " + str(25) + " 0 -0 0</pose>\n")
-    f.write("\t<pose>" + str(way_points[i][0]*111194.9) + " " + str(way_points[i][1]*111194.9) + " " + str(way_points[i][2]) + " 0 -0 0</pose>\n")
+    #project the lat and long to x and y using WGS84 projection
+    
+    x, y = pyproj.transform(source_proj, target_proj, way_points[i][0], way_points[i][1])
+    f.write("\t<pose>" + str(x) + " " + str(y) + " " + str(way_points[i][2]) + " 0 -0 0</pose>\n")
+    # f.write("\t<pose>" + str(way_points[i][0]*111194.9) + " " + str(way_points[i][1]*111194.9) + " " + str(way_points[i][2]) + " 0 -0 0</pose>\n")
 
     f.write("<link name='link'>\n")
     f.write("\t<inertial>\n")
@@ -283,14 +294,7 @@ for i in range(0, len(way_points)):
     #   <elevation>0</elevation>
     #   <heading_deg>0</heading_deg>
     # </spherical_coordinates>
-    # f.write("\t<spherical_coordinates>\n")
-    # # f.write("\t\t<surface_model>EARTH_WGS84</surface_model>\n")
-    # # f.write("\t\t<world_frame_orientation>ENU</world_frame_orientation>\n")
-    # f.write("\t\t<latitude_deg>" + str(-22.9) + "</latitude_deg>\n")
-    # f.write("\t\t<longitude_deg>" + str(-43.2) + "</longitude_deg>\n")
-    # f.write("\t\t<elevation>" + str(0) + "</elevation>\n")
-    # # f.write("\t\t<heading_deg>0</heading_deg>\n")
-    # f.write("\t</spherical_coordinates>\n")
+
 
 
 
