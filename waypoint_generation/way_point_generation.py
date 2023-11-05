@@ -234,6 +234,7 @@ for i in range(0, len(way_points)):
     # f.write("\t<pose>" + str(way_points[i][0]*111194.9) + " " + str(way_points[i][1]*111194.9) + " " + str(way_points[i][2]) + " 0 -0 0</pose>\n")
 
     f.write("<link name='link'>\n")
+    f.write("<gravity>0</gravity>\n")
     f.write("\t<inertial>\n")
     f.write("\t<mass>1</mass>\n")
     f.write("\t<inertia>\n")
