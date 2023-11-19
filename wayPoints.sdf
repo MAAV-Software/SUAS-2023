@@ -165,7 +165,7 @@
 <collision name='collision'>
 	<geometry>
 		<sphere>
-			<radius>25</radius>
+			<radius>7.62</radius>
 		</sphere>
 	</geometry>
 	<surface>
@@ -177,7 +177,7 @@
 <visual name='visual'>
 	<geometry>
 		<sphere>
-			<radius>25</radius>
+			<radius>7.62</radius>
 		</sphere>
 	</geometry>
 	<material>
@@ -194,7 +194,7 @@
 </model>
 <model name='user_way_Point_1'>
 	<static>1</static>
-	<pose>-279.32663623464083 -536.6547143083856 124.15424840481694 0 -0 0</pose>
+	<pose>363.42061449710684 396.3934278476419 103.30209571074191 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -212,7 +212,7 @@
 <collision name='collision'>
 	<geometry>
 		<sphere>
-			<radius>25</radius>
+			<radius>7.62</radius>
 		</sphere>
 	</geometry>
 	<surface>
@@ -224,7 +224,7 @@
 <visual name='visual'>
 	<geometry>
 		<sphere>
-			<radius>25</radius>
+			<radius>7.62</radius>
 		</sphere>
 	</geometry>
 	<material>
@@ -241,7 +241,7 @@
 </model>
 <model name='user_way_Point_2'>
 	<static>1</static>
-	<pose>240.8654209454418 -227.75039995198188 122.50081247477927 0 -0 0</pose>
+	<pose>78.68355107071142 -59.81606068246165 117.09526984911025 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -259,7 +259,7 @@
 <collision name='collision'>
 	<geometry>
 		<sphere>
-			<radius>25</radius>
+			<radius>7.62</radius>
 		</sphere>
 	</geometry>
 	<surface>
@@ -271,7 +271,7 @@
 <visual name='visual'>
 	<geometry>
 		<sphere>
-			<radius>25</radius>
+			<radius>7.62</radius>
 		</sphere>
 	</geometry>
 	<material>
@@ -288,7 +288,7 @@
 </model>
 <model name='user_way_Point_3'>
 	<static>1</static>
-	<pose>722.3958311529059 -594.0154898240125 102.73188992771512 0 -0 0</pose>
+	<pose>-110.79649412448339 -563.1048502339858 113.233492705924 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -306,7 +306,7 @@
 <collision name='collision'>
 	<geometry>
 		<sphere>
-			<radius>25</radius>
+			<radius>7.62</radius>
 		</sphere>
 	</geometry>
 	<surface>
@@ -318,7 +318,7 @@
 <visual name='visual'>
 	<geometry>
 		<sphere>
-			<radius>25</radius>
+			<radius>7.62</radius>
 		</sphere>
 	</geometry>
 	<material>
@@ -335,7 +335,7 @@
 </model>
 <model name='user_way_Point_4'>
 	<static>1</static>
-	<pose>196.23307261450535 -295.3946543201836 112.85241421503744 0 -0 0</pose>
+	<pose>340.48193484481 -855.5942912401899 114.37761684222683 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -353,7 +353,7 @@
 <collision name='collision'>
 	<geometry>
 		<sphere>
-			<radius>25</radius>
+			<radius>7.62</radius>
 		</sphere>
 	</geometry>
 	<surface>
@@ -365,7 +365,7 @@
 <visual name='visual'>
 	<geometry>
 		<sphere>
-			<radius>25</radius>
+			<radius>7.62</radius>
 		</sphere>
 	</geometry>
 	<material>
@@ -382,7 +382,7 @@
 </model>
 <model name='user_way_Point_5'>
 	<static>1</static>
-	<pose>301.1391002577416 300.4378532205699 117.74388279127149 0 -0 0</pose>
+	<pose>73.45960816268175 -1322.3933657708376 101.60864056613175 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -400,7 +400,7 @@
 <collision name='collision'>
 	<geometry>
 		<sphere>
-			<radius>25</radius>
+			<radius>7.62</radius>
 		</sphere>
 	</geometry>
 	<surface>
@@ -412,7 +412,7 @@
 <visual name='visual'>
 	<geometry>
 		<sphere>
-			<radius>25</radius>
+			<radius>7.62</radius>
 		</sphere>
 	</geometry>
 	<material>
@@ -429,7 +429,7 @@
 </model>
 <model name='user_way_Point_6'>
 	<static>1</static>
-	<pose>-93.11839783927101 -158.4550283227802 119.75077108930935 0 -0 0</pose>
+	<pose>-447.92186826839026 -1454.16456648543 114.25543563083642 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -447,7 +447,7 @@
 <collision name='collision'>
 	<geometry>
 		<sphere>
-			<radius>25</radius>
+			<radius>7.62</radius>
 		</sphere>
 	</geometry>
 	<surface>
@@ -459,7 +459,7 @@
 <visual name='visual'>
 	<geometry>
 		<sphere>
-			<radius>25</radius>
+			<radius>7.62</radius>
 		</sphere>
 	</geometry>
 	<material>
@@ -476,7 +476,7 @@
 </model>
 <model name='user_way_Point_7'>
 	<static>1</static>
-	<pose>96.82632778653493 415.95131999200566 119.39624481807233 0 -0 0</pose>
+	<pose>-960.3311321568821 -1617.379272646219 102.92214653993506 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -494,7 +494,7 @@
 <collision name='collision'>
 	<geometry>
 		<sphere>
-			<radius>25</radius>
+			<radius>7.62</radius>
 		</sphere>
 	</geometry>
 	<surface>
@@ -506,7 +506,7 @@
 <visual name='visual'>
 	<geometry>
 		<sphere>
-			<radius>25</radius>
+			<radius>7.62</radius>
 		</sphere>
 	</geometry>
 	<material>
@@ -523,7 +523,7 @@
 </model>
 <model name='user_way_Point_8'>
 	<static>1</static>
-	<pose>-507.25309310956476 449.2635501017904 117.74129030277706 0 -0 0</pose>
+	<pose>-1122.2420632948752 -1104.5565401413544 119.35471108808238 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -541,7 +541,7 @@
 <collision name='collision'>
 	<geometry>
 		<sphere>
-			<radius>25</radius>
+			<radius>7.62</radius>
 		</sphere>
 	</geometry>
 	<surface>
@@ -553,7 +553,54 @@
 <visual name='visual'>
 	<geometry>
 		<sphere>
-			<radius>25</radius>
+			<radius>7.62</radius>
+		</sphere>
+	</geometry>
+	<material>
+		<script>
+			<name>Gazebo/Blue</name>
+			<uri>file://media/materials/scripts/gazebo.material</uri>
+		</script>
+	</material>
+</visual>
+<self_collide>0</self_collide>
+<enable_wind>0</enable_wind>
+<kinematic>0</kinematic>
+</link>
+</model>
+<model name='user_way_Point_9'>
+	<static>1</static>
+	<pose>-1658.4418943095293 -1063.4222023115883 110.36052017426027 0 -0 0</pose>
+<link name='link'>
+<gravity>0</gravity>
+	<inertial>
+	<mass>1</mass>
+	<inertia>
+		<ixx>0.0001</ixx>
+		<ixy>0</ixy>
+		<ixz>0</ixz>
+		<iyy>0.0001</iyy>
+		<iyz>0</iyz>
+		<izz>0.0001</izz>
+	</inertia>
+<pose> 0 0 0 0 -0 0</pose>
+</inertial>
+<collision name='collision'>
+	<geometry>
+		<sphere>
+			<radius>7.62</radius>
+		</sphere>
+	</geometry>
+	<surface>
+		<contact>
+			<collide_without_contact>1</collide_without_contact>
+		</contact>
+	</surface>
+</collision>
+<visual name='visual'>
+	<geometry>
+		<sphere>
+			<radius>7.62</radius>
 		</sphere>
 	</geometry>
 	<material>
