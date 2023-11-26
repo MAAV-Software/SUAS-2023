@@ -66,7 +66,7 @@ for i in range(0, len(way_points)):
 f.close()
 
 
-f = open("wayPoints.sdf", "w")
+f = open("waypoints.world", "w")
 f.write("<sdf version='1.7'>\n")
 f.write("<world name='default'>\n")
 
@@ -230,7 +230,7 @@ for i in range(0, len(way_points)):
     #project the lat and long to x and y using WGS84 projection
     
     x, y = pyproj.transform(source_proj, target_proj, way_points[i][0], way_points[i][1])
-    f.write("\t<pose>" + str(x) + " " + str(y) + " " + str(way_points[i][2]) + " 0 -0 0</pose>\n")
+    f.write("\t<pose>" + str(x) + " " + str(y) + " " + str(way_points[i][2]*.3048) + " 0 -0 0</pose>\n")
     # f.write("\t<pose>" + str(way_points[i][0]*111194.9) + " " + str(way_points[i][1]*111194.9) + " " + str(way_points[i][2]) + " 0 -0 0</pose>\n")
 
     f.write("<link name='link'>\n")
