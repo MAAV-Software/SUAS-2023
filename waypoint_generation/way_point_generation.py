@@ -60,11 +60,21 @@ for i in range(1, howMany+1): #run through are total points
 #     </light>
 f = open("way_points.txt", "w")
 f.write("Total path length: " + str(distance*69) + " miles\n")
-f.write("Total points: " + str(len(way_points)) + "\n")
-for i in range(0, len(way_points)):
+f.write("Total points: " + str(len(way_points)-1) + "\n")
+for i in range(1, len(way_points)):
     f.write(str(way_points[i][0]) + " " + str(way_points[i][1]) + " " + str(way_points[i][2]) + "\n")
 f.close()
 
+source_proj = pyproj.Proj(init='epsg:4326')  # WGS84
+target_proj = pyproj.Proj(init='epsg:3857') 
+f = open("way_points_pose.txt", "w")
+f.write("Total path length: " + str(distance*69) + " miles\n")
+f.write("Total points: " + str(len(way_points)-1) + "\n")
+for i in range(1, len(way_points)):
+    x, y = pyproj.transform(source_proj, target_proj, way_points[i][0], way_points[i][1])
+    # f.write("\t<pose>" + str(x) + " " + str(y) + " " + str(way_points[i][2]*.3048) + " 0 -0 0</pose>\n")
+    f.write(str(x) + " " + str(y) + " " + str(way_points[i][2]*.3048) + "\n")
+f.close()
 
 f = open("waypoints.world", "w")
 f.write("<sdf version='1.7'>\n")
@@ -223,7 +233,7 @@ source_proj = pyproj.Proj(init='epsg:4326')  # WGS84
 target_proj = pyproj.Proj(init='epsg:3857') 
 
 
-for i in range(0, len(way_points)):
+for i in range(1, len(way_points)):
     f.write("<model name='user_way_Point_" + str(i) + "'>\n")
     f.write("\t<static>1</static>\n")
     # f.write("\t<pose>" + str(25) + " " + str(25) + " " + str(25) + " 0 -0 0</pose>\n")
