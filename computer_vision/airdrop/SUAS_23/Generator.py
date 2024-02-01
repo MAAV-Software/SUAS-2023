@@ -211,7 +211,10 @@ def save_all_images(folder_name, img_h, img_w, labels_file):
                     image_number += 1
 
 if __name__ == "__main__":
-    folder_name = ".data"
+    if os.path.exists(".data/"):
+        shutil.rmtree(".data/")
+    os.mkdir(".data/")
+    folder_name = ".data/training_images"
     if os.path.exists(folder_name):
         shutil.rmtree(folder_name)
     os.mkdir(folder_name)

@@ -2,7 +2,6 @@ import pytest
 import ruleset
 from Generator import generate_img
 
-
 @pytest.mark.parametrize("color", ruleset.colors_dict)
 @pytest.mark.parametrize("symbol", ruleset.symbols_dict)
 @pytest.mark.parametrize("shape", ruleset.shapes)
