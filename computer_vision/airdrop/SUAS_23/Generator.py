@@ -1,6 +1,6 @@
-
-
 import random
+import os
+import shutil
 from PIL import Image, ImageDraw, ImageFont
 from ruleset import shapes, color_options, symbols
 
@@ -93,23 +93,15 @@ def save_random_color_image(filename, img_h, img_w):
 
 
 def generate_img(color, symbol, shape):
+def generate_img(shape, image_color, symbol, symbol_color):
     img_h = 500
     img_w = 500
     selected_shape = shape
-    selected_color = color
-    while True:
-        color2 = random.choice(color_options)
-        if color2 != selected_color:
-            break
-
+    selected_color = image_color
+    color2 = symbol_color
     selected_symbol = symbol
-    # selected_shape = "Quarter_circle"
-
-    print(selected_shape)
-    print(selected_color)
 
     gray = (128, 128, 128)
-
     # ('RGB', (100, 100), selected_color)
     img = Image.new('RGB', (img_h, img_w), gray)
 
@@ -178,6 +170,57 @@ def generate_img(color, symbol, shape):
 
     return img
 
+# to get the names for lableing
+color_dict = {
+    (255, 255, 255): 'white',
+    (0, 0, 0): 'black',
+    (255, 0, 0): 'red',
+    (0, 0, 255): 'blue',
+    (0, 255, 0): 'green',
+    (127, 0, 255): 'purple',
+    (102, 51, 0): 'brown',
+    (255, 128, 0): 'orange',
+}
+
+def get_color_label(rgb_tuple):
+    return color_dict.get(rgb_tuple, 'unknown')
+
+def save_all_images(folder_name, img_h, img_w, labels_file):
+    image_number = 1
+    for selected_shape in shapes:
+        for selected_color in color_options:
+            for color2 in color_options:
+                if color2 == selected_color:
+                    continue
+                for selected_symbol in symbols:
+                    # Format the labels for shape, color, symbol, and character color
+                    shape_label = selected_shape.lower()
+                    color_label = get_color_label(selected_color)
+                    char_color_label = get_color_label(color2)
+                    symbol_label = selected_symbol.upper() if selected_symbol.isalpha() else selected_symbol
+
+                    char_label = ''.join(c for c in char_color_label if c.isalnum())
+                    char_label = char_label if char_label else 'x'  # If empty, use 'x'
+
+                    filename = os.path.join(
+                        folder_name, f"test_{shape_label}_{color_label}_{symbol_label}_{char_label}.png")
+
+                    label = f"{selected_shape}, {color_label}, {selected_symbol}, {char_color_label}\n"
+                    labels_file.write(label)
+
+                    img = generate_img(selected_shape, selected_color, selected_symbol, color2)
+                    img.save(filename)
+                    image_number += 1
 
 if __name__ == "__main__":
-    save_random_color_image('test.png', 500, 500)
+    folder_name = "all_test_images"
+    if os.path.exists(folder_name):
+        shutil.rmtree(folder_name)
+    os.mkdir(folder_name)
+
+    labels_output_fname = "labels.txt"
+    if os.path.exists(labels_output_fname):
+        os.remove(labels_output_fname)
+    labels = open(labels_output_fname, "w")
+    save_all_images(folder_name, 500, 500, labels)
+    labels.close()

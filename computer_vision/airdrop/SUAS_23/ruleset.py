@@ -34,6 +34,16 @@ colors_dict = {
     "Brown": (102, 51, 0),     # Brown
     "Orange": (255, 128, 0),    # Orange
 }
+color_labels = [
+    "White",  # White
+    "Black",        # Black
+    "Red",      # Red
+    "Blue",      # Blue
+    "Green",      # Green
+    "Purple",    # Purple
+    "Brown",     # Brown
+    "Orange",    # Orange
+]
 
 # Symbols
 symbols = [
