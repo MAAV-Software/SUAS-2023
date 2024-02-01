@@ -91,7 +91,6 @@ def save_random_color_image(filename, img_h, img_w):
 
     img.save(filename)
 
-
 def generate_img(shape, image_color, symbol, symbol_color):
     img_h = 500
     img_w = 500
