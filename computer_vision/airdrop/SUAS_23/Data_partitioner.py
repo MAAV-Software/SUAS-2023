@@ -16,8 +16,8 @@ def randomly_partition_images(source_folder, destination_folder, percentage=20):
         shutil.move(source_path, destination_path)
 
 if __name__ == "__main__":
-    source_folder = "data/training_images"
-    destination_folder = "data/test_images"
+    source_folder = ".data/training_images"
+    destination_folder = ".data/test_images"
     percentage_to_move = 20
     randomly_partition_images(source_folder, destination_folder, percentage_to_move)
 
