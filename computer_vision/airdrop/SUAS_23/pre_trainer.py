@@ -39,7 +39,7 @@ random.seed(42)
 torch.manual_seed(42)
 torch.cuda.manual_seed_all(42)
 
-data_dir = 'data'
+data_dir = '.data'
 training_data_dir = os.path.join(data_dir, 'training_images')
 model_save_path = 'path/to/fine_tuned_model.pth'
 
