@@ -5,7 +5,8 @@ bin
 logs
 build
 
-data
+.data
+labels.txt
 
 ########################
 # Video Files

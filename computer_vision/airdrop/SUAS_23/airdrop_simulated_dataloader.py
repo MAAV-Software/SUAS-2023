@@ -5,7 +5,7 @@ import os
 import ruleset
 
 class AirDropSimulatedDataset(Dataset):
-    def __init__(self, img_dir="data/", transform=None):
+    def __init__(self, img_dir=".data/", transform=None):
         self.img_dir = img_dir
         self.transform = transform
         self.images = os.listdir(img_dir)
