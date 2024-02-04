@@ -110,11 +110,11 @@ def generate_img(shape, image_color, symbol, symbol_color):
     if selected_shape == "Circle":
         draw.ellipse([center[0]-radius, center[1]-radius,
                      center[0]+radius, center[1]+radius], fill=selected_color)
-    elif selected_shape == "Semi_Circle":
+    elif selected_shape == "SemiCircle":
         center = (0.5*img_w, 0.35*img_h)
         draw.pieslice([center[0]-radius, center[1]-radius, center[0] +
                       radius, center[1]+radius], 0, 180, fill=selected_color)
-    elif selected_shape == "Quarter_Circle":
+    elif selected_shape == "QuarterCircle":
         center = (0.325*img_w, 0.35*img_h)
         draw.pieslice([center[0]-radius, center[1]-radius, center[0] +
                       radius, center[1]+radius], 0, 90, fill=selected_color)

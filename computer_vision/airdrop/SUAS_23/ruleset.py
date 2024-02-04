@@ -3,8 +3,8 @@
 # Shapes: Circle, Semi-Circle, Quarter_circle, Star, Pentagon, Triangle, Rectangle, Cross
 shapes = [
     "Circle",
-    "Semi_Circle",
-    "Quarter_Circle",
+    "SemiCircle",
+    "QuarterCircle",
     "Star",
     "Pentagon",
     "Triangle",
