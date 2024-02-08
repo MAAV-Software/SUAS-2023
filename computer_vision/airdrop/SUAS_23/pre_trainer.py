@@ -85,22 +85,22 @@ dataloader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=4)
 #pdb.set_trace()
 
 
-# # Visualization: 
-# def imshow(img):
-#     img = img / 2 + 0.5    
-#     npimg = img.numpy()
-#     plt.imshow(np.transpose(npimg, (1, 2, 0)))
-#     plt.show()
+# Visualization: 
+def imshow(img):
+    img = img / 2 + 0.5    
+    npimg = img.numpy()
+    plt.imshow(np.transpose(npimg, (1, 2, 0)))
+    plt.show()
 
-# # 1st batch
-# for images, labels in dataloader:
-#     imshow(torchvision.utils.make_grid(images))
-#     print(' '.join('%5s' % shapes[labels[j][0]] for j in range(len(labels))))
-#     print(' '.join('%5s' % list(colors_dict.keys())[labels[j][1]] for j in range(len(labels))))
-#     print(' '.join('%5s' % symbols[labels[j][2]] for j in range(len(labels))))
+# 1st batch
+for images, labels in dataloader:
+    imshow(torchvision.utils.make_grid(images))
+    print(' '.join('%5s' % shapes[labels[j][0]] for j in range(len(labels))))
+    print(' '.join('%5s' % list(colors_dict.keys())[labels[j][1]] for j in range(len(labels))))
+    print(' '.join('%5s' % symbols[labels[j][2]] for j in range(len(labels))))
     
-#     # Break to not go through all batches
-#     break
+    # Break to not go through all batches
+    break
 
 
 
@@ -133,9 +133,9 @@ class resnet18_custom(nn.Module):
 
 
 
-num_shapes = len(shapes)
-num_colors = len(colors_dict)
-num_symbols = len(symbols)
+num_shapes = len(shapes) # 8
+num_colors = len(colors_dict) # 8
+num_symbols = len(symbols) # 36
 
 #model = CustomModel(num_shapes, num_colors, num_symbols)
 model = resnet18_custom(num_shapes, num_colors, num_symbols).to('cuda')
