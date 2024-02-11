@@ -116,7 +116,7 @@ class resnet18_custom(nn.Module):
     def __init__(self, num_shapes, num_colors, num_symbols):
         super(resnet18_custom, self).__init__()
 
-        self.features = models.resnet18(pretrained=True) 
+        self.features = models.re`snet18(pretrained=True) 
         self.features.fc = nn.Identity()  
 
         self.fc_shape = nn.Linear(512, num_shapes)
