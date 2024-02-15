@@ -116,7 +116,7 @@ class resnet18_custom(nn.Module):
     def __init__(self, num_shapes, num_colors, num_symbols):
         super(resnet18_custom, self).__init__()
 
-        self.features = models.re`snet18(pretrained=True) 
+        self.features = models.resnet18(pretrained=True) 
         self.features.fc = nn.Identity()  
 
         self.fc_shape = nn.Linear(512, num_shapes)
@@ -142,7 +142,7 @@ model = resnet18_custom(num_shapes, num_colors, num_symbols).to('cuda')
 
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=0.001)
+optimizer = optim.Adam(model.parameters(), lr=0.001) # 0.01 0.005, 0.0005
 
 # split into training and validation 
 train_percentage = 0.2
@@ -178,6 +178,7 @@ for epoch in range(num_epochs):
         total_loss = loss_shape + loss_color + loss_symbol
         total_loss.backward()
         optimizer.step()
+        print("loss", loss_symbol)
 
     # validation
     model.eval()
