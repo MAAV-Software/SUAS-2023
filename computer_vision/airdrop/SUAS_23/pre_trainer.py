@@ -70,16 +70,13 @@ class dataset_parser(Dataset):
 
         return image, label
 
-# Define your transformations (you can modify this based on your needs)
+# Define your transformations 
 transform = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.ToTensor(),
 ])
 
-# Specify the path to your training images
 training_data_path = '.data/training_images'
-
-# Create an instance of the CustomDataset and DataLoader
 dataset = dataset_parser(root_dir=training_data_path, shapes=shapes, colors_dict=colors_dict, symbols=symbols, transform=transform)
 dataloader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=4)
 #pdb.set_trace()
@@ -178,7 +175,6 @@ for epoch in range(num_epochs):
         total_loss = loss_shape + loss_color + loss_symbol
         total_loss.backward()
         optimizer.step()
-        print("loss", loss_symbol)
 
     # validation
     model.eval()

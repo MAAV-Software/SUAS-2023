@@ -18,8 +18,8 @@ def find_drop_locations(image_path):
     contours, _ = cv2.findContours(binary_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     #pdb.set_trace() 
     
-    min_area = 100  
-    max_area = 50000  
+    min_area = 200   # 100
+    max_area = 2500  # 50000
     filtered_contours = [cnt for cnt in contours if min_area < cv2.contourArea(cnt) < max_area]
     filtered_contours = filtered_contours[:5]
     drop_locations = []
@@ -38,7 +38,6 @@ def find_drop_locations(image_path):
 def highlight_drop_locations(image_path, drop_locations):
     image = cv2.imread(image_path)
 
-    # TODO: Switch to squares
     for location in drop_locations:
         square_half_len = 35
         st = (location[0] - square_half_len, location[1] - square_half_len)
@@ -50,7 +49,9 @@ def highlight_drop_locations(image_path, drop_locations):
     plt.show()
 
 if __name__ == "__main__":
-    file_name = "exmple-airdrop-config-5-smaller.png"
+    #file_name = "exmple-airdrop-config-5-smaller.png"
+    file_name = ".data/full_drop_zone/images/config_0.png"
+
     image_path = file_name
 
     # Find drop locations
