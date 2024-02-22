@@ -1,0 +1,32 @@
+{
+  "dockerFile": "Dockerfile",
+  "containerEnv": {
+    "DISPLAY": "${localEnv:DISPLAY}"
+  },
+  "runArgs": [
+    "--privileged",
+    "--network=host"
+  ],
+  
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "bash",
+				"terminal.integrated.profiles.linux": {
+					"bash": {
+						"path": "/bin/bash"
+					}
+				}
+			}
+      // ,
+			// "extensions": [
+			// 	"ms-python.python",
+			// 	"ms-python.autopep8",
+			// 	"ms-python.vscode-pylance",
+			// 	"ms-azuretools.vscode-docker",
+			// 	"github.copilot",
+			// 	"github.copilot-chat"
+			// ]
+		}
+	}
+}
