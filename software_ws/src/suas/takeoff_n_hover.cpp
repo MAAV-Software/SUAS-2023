@@ -6,6 +6,11 @@
 #include <mavros_msgs/PositionTarget.h>
 #include <mavros_msgs/CommandTriggerControl.h>
 #include <geometry_msgs/PoseStamped.h>
+#include <image_transport/image_transport.h>
+#include <cv_bridge/cv_bridge.h>
+#include <sensor_msgs/image_encodings.h>
+#include <opencv4/opencv2/imgproc/imgproc.hpp>
+#include <opencv4/opencv2/highgui/highgui.hpp>
 
 #define FLIGHT_ALTITUDE 24.4f
 #define HOVER_DURATION 120.0
@@ -36,6 +41,61 @@ double compute_pid(double setpoint, double current, double& prev_error, double i
     prev_error = error;
     return output;
 }
+class ImageConverter
+{
+  ros::NodeHandle nh_;
+  image_transport::ImageTransport it_;
+  image_transport::Subscriber image_sub_;
+  image_transport::Subscriber depth_image_sub_;
+
+  image_transport::Publisher image_pub_;
+
+  cv::Mat depth_mask;
+  bool is_depth_mask = false;
+
+public:
+  ImageConverter()
+    : it_(nh_)
+  {
+    // Subscrive to input video feed and publish output video feed
+    image_sub_ = it_.subscribe("/camera/rgb/image_raw", 1,
+      &ImageConverter::imageCb, this);
+    // depth_image_sub_ = it_.subscribe("/camera/depth/image_raw", 1,
+    //   &ImageConverter::depthImageCb, this);
+    // image_pub_ = it_.advertise("/image_converter/output_video", 1);
+
+    // cv::namedWindow("source");
+  }
+
+  ~ImageConverter()
+  {
+    // cv::destroyWindow("source");
+  }
+  void imageCb(const sensor_msgs::ImageConstPtr& msg)
+  {
+    ROS_INFO("Image received");
+  }
+};
+// public:
+//   ImageConverter()
+//     : it_(nh_)
+//   {
+//     // Subscrive to input video feed and publish output video feed
+//     image_sub_ = it_.subscribe("/camera/rgb/image_raw", 1,
+//       &ImageConverter::imageCb, this);
+//     depth_image_sub_ = it_.subscribe("/camera/depth/image_raw", 1,
+//       &ImageConverter::depthImageCb, this);
+//     image_pub_ = it_.advertise("/image_converter/output_video", 1);
+
+//     cv::namedWindow("source");
+//   }
+
+//   ~ImageConverter()
+//   {
+//     cv::destroyWindow("source");
+//   }
+// }
+
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "takeoff_hover_land");
@@ -53,9 +113,20 @@ int main(int argc, char **argv) {
             "mavros/set_mode");
     ros::ServiceClient land_client = nh.serviceClient<mavros_msgs::CommandTOL>(
             "mavros/cmd/land");
-    ros::ServiceClient img_capture_client = nh.serviceClient<mavros_msgs::CommandTriggerControl>(
-            "mavros/cmd/trigger_control");
+    // ros::Subscriber camera_sub = nh.subscribe<&ImageConverter::imageCb>("/camera/rgb/image_raw");
+    ImageConverter ic;
 
+    // ros::Subscriber camera_sub = nh.subscribe<mavros_msgs::imageCb>("/camera/rgb/image_raw", 1, state_im);
+
+    // Hey!! How are things lol
+    // trying to get the camera to actually take a picture, 
+    // we're still pushing under your github
+    // how's the masters going
+    //
+    // Great! Looks like you guys have a lot 
+    // of sweet work for suas. When's the competition? 
+    //
+    // this summer in maryland, I think its near the end of june
     ros::Rate rate(20.0);
 
     // Wait for FCU connection
@@ -121,14 +192,6 @@ int main(int argc, char **argv) {
         target.position.x = HOVER_X;
         target.position.y = HOVER_Y;
         target.position.z = FLIGHT_ALTITUDE + output_z;
-
-        mavros_msgs::CommandTriggerControl ctc;
-        ctc.request.trigger_enable = true;
-        if (img_capture_client.call(ctc)) {
-            ROS_INFO("TRIGGER DA CAMERA: %s", ctc.response.success ? "SUCCESS" : "FAIL");
-        } else {
-            ROS_ERROR("FAILED TO CALL CAMERA SERVICE");
-        }
 
         local_pos_pub.publish(target);
         ros::spinOnce();

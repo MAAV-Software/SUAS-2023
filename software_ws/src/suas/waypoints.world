@@ -233,7 +233,7 @@
 </model>
 <model name='user_way_Point_2'>
 	<static>1</static>
-	<pose>-48.46170440774065 -535.5873004096447 110.67830293409448 0 -0 0</pose>
+	<pose>-804.908580574888 -53.172690329623364 120.5573629082426 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -280,7 +280,7 @@
 </model>
 <model name='user_way_Point_3'>
 	<static>1</static>
-	<pose>-400.9455388062588 -941.736831045689 121.05514606011744 0 -0 0</pose>
+	<pose>-3.8846460685574606 -148.3872608025037 113.35388323887551 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -327,7 +327,7 @@
 </model>
 <model name='user_way_Point_4'>
 	<static>1</static>
-	<pose>-901.93941215315 -746.2696163500739 103.23466897509803 0 -0 0</pose>
+	<pose>710.9157762404686 225.46500198570232 115.32624373405416 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -374,7 +374,7 @@
 </model>
 <model name='user_way_Point_5'>
 	<static>1</static>
-	<pose>-616.4869288148551 -1202.0318100101817 120.93233650048464 0 -0 0</pose>
+	<pose>-39.49785241828829 -70.4818581627798 101.32805633949296 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -421,7 +421,7 @@
 </model>
 <model name='user_way_Point_6'>
 	<static>1</static>
-	<pose>-1143.6300088987261 -1308.4388870231533 107.68903541025378 0 -0 0</pose>
+	<pose>-586.8656493774307 -663.0134221704225 122.96246384304781 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -468,148 +468,7 @@
 </model>
 <model name='user_way_Point_7'>
 	<static>1</static>
-	<pose>-1597.9735479231126 -1020.7337535958558 103.63412352306887 0 -0 0</pose>
-<link name='link'>
-<gravity>0</gravity>
-	<inertial>
-	<mass>1</mass>
-	<inertia>
-		<ixx>0.0001</ixx>
-		<ixy>0</ixy>
-		<ixz>0</ixz>
-		<iyy>0.0001</iyy>
-		<iyz>0</iyz>
-		<izz>0.0001</izz>
-	</inertia>
-<pose> 0 0 0 0 -0 0</pose>
-</inertial>
-<collision name='collision'>
-	<geometry>
-		<sphere>
-			<radius>7.62</radius>
-		</sphere>
-	</geometry>
-	<surface>
-		<contact>
-			<collide_without_contact>1</collide_without_contact>
-		</contact>
-	</surface>
-</collision>
-<visual name='visual'>
-	<geometry>
-		<sphere>
-			<radius>7.62</radius>
-		</sphere>
-	</geometry>
-	<material>
-		<script>
-			<name>Gazebo/Blue</name>
-			<uri>file://media/materials/scripts/gazebo.material</uri>
-		</script>
-	</material>
-</visual>
-<self_collide>0</self_collide>
-<enable_wind>0</enable_wind>
-<kinematic>0</kinematic>
-</link>
-</model>
-<model name='user_way_Point_8'>
-	<static>1</static>
-	<pose>-1591.363869107464 -482.9990524509749 121.47791461740805 0 -0 0</pose>
-<link name='link'>
-<gravity>0</gravity>
-	<inertial>
-	<mass>1</mass>
-	<inertia>
-		<ixx>0.0001</ixx>
-		<ixy>0</ixy>
-		<ixz>0</ixz>
-		<iyy>0.0001</iyy>
-		<iyz>0</iyz>
-		<izz>0.0001</izz>
-	</inertia>
-<pose> 0 0 0 0 -0 0</pose>
-</inertial>
-<collision name='collision'>
-	<geometry>
-		<sphere>
-			<radius>7.62</radius>
-		</sphere>
-	</geometry>
-	<surface>
-		<contact>
-			<collide_without_contact>1</collide_without_contact>
-		</contact>
-	</surface>
-</collision>
-<visual name='visual'>
-	<geometry>
-		<sphere>
-			<radius>7.62</radius>
-		</sphere>
-	</geometry>
-	<material>
-		<script>
-			<name>Gazebo/Blue</name>
-			<uri>file://media/materials/scripts/gazebo.material</uri>
-		</script>
-	</material>
-</visual>
-<self_collide>0</self_collide>
-<enable_wind>0</enable_wind>
-<kinematic>0</kinematic>
-</link>
-</model>
-<model name='user_way_Point_9'>
-	<static>1</static>
-	<pose>-1349.8392856791595 -963.4864832516955 113.75700732696843 0 -0 0</pose>
-<link name='link'>
-<gravity>0</gravity>
-	<inertial>
-	<mass>1</mass>
-	<inertia>
-		<ixx>0.0001</ixx>
-		<ixy>0</ixy>
-		<ixz>0</ixz>
-		<iyy>0.0001</iyy>
-		<iyz>0</iyz>
-		<izz>0.0001</izz>
-	</inertia>
-<pose> 0 0 0 0 -0 0</pose>
-</inertial>
-<collision name='collision'>
-	<geometry>
-		<sphere>
-			<radius>7.62</radius>
-		</sphere>
-	</geometry>
-	<surface>
-		<contact>
-			<collide_without_contact>1</collide_without_contact>
-		</contact>
-	</surface>
-</collision>
-<visual name='visual'>
-	<geometry>
-		<sphere>
-			<radius>7.62</radius>
-		</sphere>
-	</geometry>
-	<material>
-		<script>
-			<name>Gazebo/Blue</name>
-			<uri>file://media/materials/scripts/gazebo.material</uri>
-		</script>
-	</material>
-</visual>
-<self_collide>0</self_collide>
-<enable_wind>0</enable_wind>
-<kinematic>0</kinematic>
-</link>
-</model>
-<model name='user_way_Point_10'>
-	<static>1</static>
-	<pose>-1391.096196889656 -427.2960661943319 118.58142544971705 0 -0 0</pose>
+	<pose>-164.16620408020523 -1350.058070819429 108.01513412131378 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
