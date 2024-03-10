@@ -1,171 +1,157 @@
-# Airdrop location detector
-import cv2
-import numpy as np
-import matplotlib.pyplot as plt
-import torch.nn as nn
-import torch.optim as optim
-from torchvision import datasets, models, transforms
-from torch.utils.data import Dataset, DataLoader, random_split
-import torch 
 import os
-from PIL import Image
-import pdb 
+import numpy as np
+import torch
+import torch.nn as nn
+import torchvision.transforms as transforms
+from torchvision import models
+from torch.utils.data import Dataset, DataLoader
+import cv2
 
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-#TODO: change this class to take in all of the images in drop zone folder assign them to 'image' variable. 
-# Also take all of the ground truths' from the metadata folder and create a label variable for each image containg a list of 5 tuples for x,y pixel coordinates
-# labels: [(x1, y1), (x2, y2), ... (x5, y5)]
+# Define the path to the data
+data_dir = ".data/full_drop_zone"
+image_dir = os.path.join(data_dir, "images")
+metadata_dir = os.path.join(data_dir, "metadata")
+results_dir = os.path.join(data_dir, "results")
 
-### example config txt file ###
-#test_rectangle_green_W_orange.png placed at (294,3167)
-#test_triangle_brown_W_white.png placed at (5226,881)
-#test_triangle_blue_N_red.png placed at (7766,790)
-#test_semicircle_purple_T_white.png placed at (2717,3669)
-#test_pentagon_blue_G_brown.png placed at (1318,2226)
+# Define hyperparameters
+batch_size = 8
+lr = 0.001
+num_epochs = 1
 
-class dataset_parser(Dataset):
-    def __init__(self, root_dir, transform=None):
-        # should be drop zone folder directory
-        self.root_dir = root_dir
-        
-        # the paths to the images
-        self.images_list = os.listdir(root_dir + "/images")
-        self.labels_list = os.listdir(root_dir + "/metadata")
-        #self.image = self.images_list[0]
+# Define custom dataset class
+class DropZoneDataset(Dataset):
+    def __init__(self, image_dir, metadata_dir, transform=None):
+        self.image_dir = image_dir
+        self.metadata_dir = metadata_dir
+        self.image_files = os.listdir(image_dir)
+        self.transform = transform
 
     def __len__(self):
-        return len(self.labels_list)
+        return len(self.image_files)
 
     def __getitem__(self, idx):
-        img_name = os.path.join(self.root_dir + "/images", self.images_list[idx])
-        image = Image.open(img_name).convert("RGB")
+        image_name = self.image_files[idx]
+        image_path = os.path.join(self.image_dir, image_name)
+        metadata_path = os.path.join(self.metadata_dir, image_name.replace(".png", ".txt"))
 
-        # Extract labels from the filename
-        label_path = os.path.join(self.root_dir + "/images", self.labels_list[idx])
-        file = open(label_path, 'r')
-        lines = file.readlines()
-        file.close()
-        curr_label = torch.empty()
-        for line in lines:
-            line = (line.partition("(")[2]).partition(")")[0]
-            curr_label.append(line.partition(",")[0], line.parition(",")[2])
+        # resize image 
+        image = cv2.imread(image_path)
+        image = cv2.resize(image, (224, 224)) 
+
+        # metadata
+        with open(metadata_path, 'r') as f:
+            data = f.readlines()
+        drop_locations = []
+        for line in data:
+            coords = line.split("(")[1].split(")")[0].split(",")
+            x, y = int(coords[0]), int(coords[1])
+            drop_locations.append((x, y))
+
+        # Padding to resolve error
+        while len(drop_locations) < 5:
+            drop_locations.append((0, 0))  
+
+        sample = {'image': image, 'drop_locations': drop_locations}
 
         if self.transform:
-            image = self.transform(image)
+            sample = self.transform(sample)
 
-        return image, curr_label
-    
-transform = transforms.Compose([
-    transforms.ToTensor()
-])
-    
-    
-    
-class resnet18_custom(nn.Module):
-    def __init__(self, out_shape):
-        super(resnet18_custom, self).__init__()
+        return sample
 
-        self.features = models.resnet18(pretrained=True) 
-        self.features.fc = nn.Identity()  
-        
-        self.fc_shape = nn.Linear(512, out_shape)
+
+class ToTensor(object):
+    def __call__(self, sample):
+        image, drop_locations = sample['image'], sample['drop_locations']
+        image = image.transpose((2, 0, 1))
+        return {'image': torch.tensor(image, dtype=torch.float).to(device),
+                'drop_locations': torch.tensor(drop_locations, dtype=torch.float).to(device)}
+
+
+class DropZoneModel(nn.Module):
+    def __init__(self):
+        super(DropZoneModel, self).__init__()
+        self.resnet = models.resnet18(pretrained=True)
+        self.fc = nn.Linear(1000, 5 * 2)  # Output layer gives x, y coords
 
     def forward(self, x):
-        x = self.features(x)
-        x = x.view(x.size(0), -1)
-        out = self.fc_shape(x) # output is 2,5 tensor
-        return out
-    
-    
+        x = self.resnet(x)
+        x = self.fc(x)
+        x = x.view(-1, 5, 2)
+        return x.to(device)
 
 
 
-
-
-def train(image_path, num_epochs):
-    
-    # prepare data 
-    dataset = dataset_parser(root_dir=image_path, transform=transform)
-    pdb.set_trace()
-    train_perc = 0.7
-    train_size = int(train_perc * len(dataset))
-    val_size = int((1 - train_perc - 0.15) * len(dataset))
-    test_size = len(dataset) - train_size - val_size
-    
-    train_dataset, val_dataset, test_dataset = random_split(dataset,[train_size, val_size, test_size])
-    train_dataloader = DataLoader(train_dataset, batch_size=32, shuffle=True, num_workers=4)
-    val_dataloader = DataLoader(val_dataset, batch_size=32, shuffle=True, num_workers=4)
-    test_dataloader = DataLoader(test_dataset, batch_size=32, shuffle=True, num_workers=4)
-
-    
-    out_shape = torch.tensor((2,5))
-    model = resnet18_custom(out_shape).to('cuda')
-    
-    criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
-    
+def train(model, train_loader, criterion, optimizer, num_epochs):
     for epoch in range(num_epochs):
         model.train()
-        for images, labels in train_dataloader:
+        running_loss = 0.0
+        for i, data in enumerate(train_loader, 0):
+            inputs, labels = data['image'], data['drop_locations']
             optimizer.zero_grad()
-            images, labels = images.to('cuda'), labels.to('cuda')
-            preds = model(images)
-            loss = criterion(preds, labels)
+
+            outputs = model(inputs)
+            loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
-        
-        model.eval()
-        with torch.no_grad():
-            val_loss = 0.0
-            for images, labels in val_dataloader:
-                images, labels = images.to('cuda'), labels.to('cuda')
-                preds = model(images)
-                val_los2 += criterion(preds, labels)
 
-        print(f'Epoch {epoch + 1}/{num_epochs}, Loss: {loss.item():.4f}, Val Loss: {val_loss/len(val_dataloader):.4f}')
+            running_loss += loss.item()
+
+        print(f"Epoch {epoch+1}, Loss: {running_loss / len(train_loader)}")
 
 
 
-    return model
+def find_drop_locations(model, test_loader):
+    model.eval()
+    predicted_locations_list = []
+    with torch.no_grad():
+        for i, data in enumerate(test_loader, 0):
+            inputs, _ = data['image'], data['drop_locations']
+            outputs = model(inputs)
+            predicted_locations = outputs.cpu().numpy()
+            predicted_locations_list.append(predicted_locations)
+    return predicted_locations_list
 
-def find_drop_locations(model, image):
-    drop_locations = model(image)    
-    
-    return drop_locations
+
+
+def highlight_drop_locations(test_dataset, predicted_locations_list):
+    for i in range(len(test_dataset)):
+        image, _ = test_dataset[i]['image'], test_dataset[i]['drop_locations']
+        image = image.cpu()
+        predicted_locations = predicted_locations_list[i]
+        image = np.transpose(image, (1, 2, 0))
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        for loc in predicted_locations:
+            cv2.rectangle(image, (int(loc[0])-5, int(loc[1])-5), (int(loc[0])+5, int(loc[1])+5), (255, 0, 0), 2)
+        cv2.imwrite(os.path.join(results_dir, f"result_{i}.png"), image)
 
 
 
 
-def highlight_drop_locations(image_path, drop_locations):
-    image = cv2.imread(image_path)
+def main():
+    dataset = DropZoneDataset(image_dir=image_dir, metadata_dir=metadata_dir, transform=ToTensor())
+    train_size = int(0.8 * len(dataset))
+    test_size = len(dataset) - train_size
+    train_dataset, test_dataset = torch.utils.data.random_split(dataset, [train_size, test_size])
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
-    for location in drop_locations:
-        square_half_len = 35
-        st = (location[0] - square_half_len, location[1] - square_half_len)
-        ed = (location[0] + square_half_len, location[1] + square_half_len)
-        cv2.rectangle(image, st, ed, (220, 220, 220), 2)
+    # Define the model, loss function, and optimizer
+    model = DropZoneModel().to(device)
+    criterion = nn.MSELoss()
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
-    plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
-    plt.title("Drop Locations")
-    plt.show()
-
-if __name__ == "__main__":
-    #file_name = "exmple-airdrop-config-5-smaller.png"
-    file_name = ".data/full_drop_zone"
-
-    image_path = file_name
+    # Train the model
+    train(model, train_loader, criterion, optimizer, num_epochs)
 
     # Find drop locations
-    num_epochs = 1
-    model = train(image_path, num_epochs)
-    drop_locations = find_drop_locations(image_path)
-    print("Drop Locations:")
-    for i, location in enumerate(drop_locations):
-        print(f"Drop {i+1}: ({location[0]}, {location[1]})")
+    predicted_locations_list = find_drop_locations(model, test_loader)
 
-    # Overlay/highlight drop locations 
-    highlight_drop_locations(image_path, drop_locations)
+    # Highlight drop locations on images and save
+    highlight_drop_locations(test_dataset, predicted_locations_list)
+    print("Evaluation complete. Results saved in 'data/full_drop_zone/results'")
 
-
-
+if __name__ == "__main__":
+    main()
