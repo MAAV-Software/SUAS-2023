@@ -7,6 +7,9 @@ from torchvision import models
 from torch.utils.data import Dataset, DataLoader
 import cv2
 
+import matplotlib.pyplot as plt
+import pdb
+
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -18,7 +21,7 @@ results_dir = os.path.join(data_dir, "results")
 
 # Define hyperparameters
 batch_size = 8
-lr = 0.001
+lr = 0.01
 num_epochs = 1
 
 # Define custom dataset class
@@ -74,12 +77,14 @@ class DropZoneModel(nn.Module):
     def __init__(self):
         super(DropZoneModel, self).__init__()
         self.resnet = models.resnet18(pretrained=True)
-        self.fc = nn.Linear(1000, 5 * 2)  # Output layer gives x, y coords
+        self.fc = nn.Linear(1000, 10)  # 5*2 # Output layer gives x, y coords
 
     def forward(self, x):
+        #print("this is x input: ", x.shape)
         x = self.resnet(x)
         x = self.fc(x)
         x = x.view(-1, 5, 2)
+        #print("this is x output: ", x.shape)
         return x.to(device)
 
 
@@ -111,21 +116,45 @@ def find_drop_locations(model, test_loader):
             inputs, _ = data['image'], data['drop_locations']
             outputs = model(inputs)
             predicted_locations = outputs.cpu().numpy()
+            #print("predictions: ", outputs)
+
             predicted_locations_list.append(predicted_locations)
     return predicted_locations_list
 
 
 
-def highlight_drop_locations(test_dataset, predicted_locations_list):
-    for i in range(len(test_dataset)):
-        image, _ = test_dataset[i]['image'], test_dataset[i]['drop_locations']
-        image = image.cpu()
-        predicted_locations = predicted_locations_list[i]
-        image = np.transpose(image, (1, 2, 0))
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        for loc in predicted_locations:
-            cv2.rectangle(image, (int(loc[0])-5, int(loc[1])-5), (int(loc[0])+5, int(loc[1])+5), (255, 0, 0), 2)
-        cv2.imwrite(os.path.join(results_dir, f"result_{i}.png"), image)
+def highlight_drop_locations(model, test_dataset, predicted_locations_list):
+    # for i in range(len(test_dataset)):
+    #     image, _ = test_dataset[i]['image'], test_dataset[i]['drop_locations']
+    #     predicted_locations = predicted_locations_list[i]
+    #     #image = np.transpose(image, (1, 2, 0))
+        
+    #     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    #     for loc in predicted_locations:
+    #         cv2.rectangle(image, (int(loc[0])-5, int(loc[1])-5), (int(loc[0])+5, int(loc[1])+5), (255, 0, 0), 2)
+    #     cv2.imwrite(os.path.join(results_dir, f"result_{i}.png"), image)
+        
+    
+    # image = cv2.imread(".data/full_drop_zone/images/config_0.png")
+    # image = cv2.resize(image, (224, 224))
+    # image = image.transpose((2, 0, 1))
+    image = test_dataset[0]
+    inputs, gt_lbl = image['image'], image['drop_locations']
+    inputs = inputs.unsqueeze(0)
+    pred_location = model(inputs)
+    square_half_len = 35
+    pred_location = pred_location.squeeze()
+    st = (pred_location[0] - square_half_len, pred_location[1] - square_half_len)
+    ed = (pred_location[0] + square_half_len, pred_location[1] + square_half_len)
+    #pdb.set_trace()
+    
+    image = inputs.squeeze().cpu().numpy().transpose(2,1,0)
+    cv2.rectangle(image, st, ed, (220, 220, 220), 2)
+
+    
+    plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+    plt.title("Drop Locations")
+    plt.show()
 
 
 
@@ -136,7 +165,7 @@ def main():
     test_size = len(dataset) - train_size
     train_dataset, test_dataset = torch.utils.data.random_split(dataset, [train_size, test_size])
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
-    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
+    test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
     # Define the model, loss function, and optimizer
     model = DropZoneModel().to(device)
@@ -150,7 +179,7 @@ def main():
     predicted_locations_list = find_drop_locations(model, test_loader)
 
     # Highlight drop locations on images and save
-    highlight_drop_locations(test_dataset, predicted_locations_list)
+    highlight_drop_locations(model, test_dataset, predicted_locations_list)
     print("Evaluation complete. Results saved in 'data/full_drop_zone/results'")
 
 if __name__ == "__main__":

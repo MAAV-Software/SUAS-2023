@@ -32,7 +32,7 @@ def place_on_background(background_size, folder_path, image_selections, image_ou
             x = random.randint(0, background.width - currImg.width)
             y = random.randint(0, background.height - currImg.height)
             if not len(placed_positions) == 0:
-                for (prevx, prevy) in placed_positions:
+                for (prevx, prevy, previmg) in placed_positions:
                     if((abs(prevx - x) > 500) or (abs(prevy - y) > 500)): # 500 pixels for determining overlapping
                         overlapping = False
                     else:
@@ -41,13 +41,33 @@ def place_on_background(background_size, folder_path, image_selections, image_ou
             else:
                 overlapping = False
             if(overlapping == False):
-                placed_positions.append((x,y))
+                placed_positions.append((x,y, image))
                 background.paste(currImg, (x,y))
 
     background.save(image_output_path + name + ".png")
     metadata = open(data_output_path + name + ".txt", "w+")
+    
+
+    insertionSort(placed_positions)
     for i in range(0,5):
-        metadata.write(image_selections[i] + " placed at (" + str(placed_positions[i][0])+ ',' + str(placed_positions[i][1]) + ")\n")
+        metadata.write(placed_positions[i][2] + " placed at (" + str(placed_positions[i][0])+ ',' + str(placed_positions[i][1]) + ")\n")
+
+def pointGreater(point1, point2):
+    if(point1[1] == point2[1]):
+        return point1[0] > point2[0]
+    return point1[1] > point2[1]
+
+def insertionSort(arr):
+    n = len(arr)
+    if n <= 1: return
+    for i in range(1, n):
+        j = i-1
+        key = arr[i]
+        while j >= 0 and not pointGreater(key, arr[j]):
+            arr[j+1] = arr[j]
+            j -= 1
+        arr[j+1] = key
+
 
 def generate_rand_configs(number, background_size, folder_dir, image_output_path, data_output_path, name):
     for i in range(number):
@@ -75,5 +95,5 @@ if __name__ == "__main__":
     check_file_paths(file_path, image_output_path, data_output_path)
     name = "config_"
 
-    number_of_configs = 128
+    number_of_configs = 32
     generate_rand_configs(number_of_configs, background_size, folder_dir, image_output_path, data_output_path, name)
