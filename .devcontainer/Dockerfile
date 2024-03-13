@@ -95,7 +95,7 @@ RUN rm -r /usr/include/c_library_v2
 
 
 # Gazebo
-# the previous script installed libgazebo11 explicitly, wihch is already installed
+# the previous script installed libgazebo11 explicitly, which is already installed
 # the curl command just used apt to install libgazebo11-dev and gazebo11
 # both of which are already installed in the image
 
@@ -104,16 +104,27 @@ WORKDIR /root
 RUN git clone https://github.com/PX4/PX4-Autopilot.git --recursive
 RUN ./PX4-Autopilot/Tools/setup/ubuntu.sh
 # PX4 sitl
+RUN git clone https://github.com/PX4/sitl_gazebo.git --recursive
+WORKDIR /root/sitl_gazebo
+RUN mkdir build
+WORKDIR /root/sitl_gazebo/build
+RUN cmake ..
+RUN make -j8
+RUN make install
 
 # qgroundcontrol
-
+RUN usermod -a -G dialout root
+RUN wget https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl.AppImage -P /usr/bin/
+RUN chmod a+x /usr/bin/QGroundControl.AppImage
 
 # MavROS
 # already installed earlier with apt
 
-
 # Source the ROS entrypoint file
 RUN source /opt/ros/$ROS_DISTRO/setup.bash
 
+WORKDIR /root
 
+ENV SHELL /bin/bash
 
+CMD ["/bin/bash"]
