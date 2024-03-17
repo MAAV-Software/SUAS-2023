@@ -1,4 +1,5 @@
 import os
+import sys
 import random
 from PIL import Image, ImageDraw
 
@@ -85,6 +86,8 @@ def check_file_paths(file_path, image_output_path, data_output_path):
         os.makedirs(data_output_path)
 
 if __name__ == "__main__":
+    
+    
     current_file_path = os.path.abspath(__file__)
     folder_dir = os.path.join(os.path.dirname(current_file_path), '.data/training_images')
     background_size = (10000, 4800)
@@ -95,5 +98,5 @@ if __name__ == "__main__":
     check_file_paths(file_path, image_output_path, data_output_path)
     name = "config_"
 
-    number_of_configs = 32
+    number_of_configs = int(sys.argv[1])
     generate_rand_configs(number_of_configs, background_size, folder_dir, image_output_path, data_output_path, name)

@@ -10,6 +10,8 @@ import cv2
 import matplotlib.pyplot as plt
 import pdb
 
+from PIL import Image
+
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -22,7 +24,7 @@ results_dir = os.path.join(data_dir, "results")
 # Define hyperparameters
 batch_size = 8
 lr = 0.01
-num_epochs = 1
+num_epochs = 5
 
 # Define custom dataset class
 class DropZoneDataset(Dataset):
@@ -42,7 +44,10 @@ class DropZoneDataset(Dataset):
 
         # resize image 
         image = cv2.imread(image_path)
-        image = cv2.resize(image, (224, 224)) 
+        #print(image.shape)
+        h, w, _ = image.shape
+        #pdb.set_trace()
+        image = cv2.resize(image, (1000, 480)) 
 
         # metadata
         with open(metadata_path, 'r') as f:
@@ -51,7 +56,7 @@ class DropZoneDataset(Dataset):
         for line in data:
             coords = line.split("(")[1].split(")")[0].split(",")
             x, y = int(coords[0]), int(coords[1])
-            drop_locations.append((x, y))
+            drop_locations.append((x/10, y/10))
 
         # Padding to resolve error
         while len(drop_locations) < 5:
@@ -142,15 +147,26 @@ def highlight_drop_locations(model, test_dataset, predicted_locations_list):
     inputs, gt_lbl = image['image'], image['drop_locations']
     inputs = inputs.unsqueeze(0)
     pred_location = model(inputs)
-    square_half_len = 35
+    square_half_len = 25
     pred_location = pred_location.squeeze()
-    st = (pred_location[0] - square_half_len, pred_location[1] - square_half_len)
-    ed = (pred_location[0] + square_half_len, pred_location[1] + square_half_len)
     #pdb.set_trace()
     
-    image = inputs.squeeze().cpu().numpy().transpose(2,1,0)
-    cv2.rectangle(image, st, ed, (220, 220, 220), 2)
+    image = inputs.squeeze().cpu().numpy().transpose(1,2,0)
+    image = np.ascontiguousarray(image)
+    
+    #pred_location_np = pred_location.detach().cpu().numpy()
+    #pdb.set_trace()
+    for loc in pred_location:
+        st = (int(loc[0]) - square_half_len, int(loc[1]) - square_half_len)
+        ed = (int(loc[0]) + square_half_len, int(loc[1]) + square_half_len)
+        cv2.rectangle(image, st, ed, (0, 0, 230), 10)
 
+    print("predicted location: ", pred_location)
+        
+    # os.makedirs(results_dir, exist_ok=True)
+    # output_path = os.path.join(results_dir, 'results.jpg')
+    # plt.imsave(output_path, image)
+    
     
     plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
     plt.title("Drop Locations")
