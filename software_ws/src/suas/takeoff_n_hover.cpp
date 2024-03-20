@@ -12,15 +12,20 @@
 #include <opencv4/opencv2/imgproc/imgproc.hpp>
 #include <opencv4/opencv2/highgui/highgui.hpp>
 
-#define FLIGHT_ALTITUDE 24.4f
+#define FLIGHT_ALTITUDE 35
 #define HOVER_DURATION 120.0
-#define HOVER_X 10.0  // Adjust these values according to your desired hover position
-#define HOVER_Y 10.0
+#define HOVER_X 20.683  // Adjust these values according to your desired hover position (currently set to center of air strip)
+#define HOVER_Y 54.864
+
+// five midpoints, evenly distributed
+// (20.6833, 18.288), (20.6833, 36.576), (20.6833, 54.864), (20.6833, 73.152), (20.6833, 91.44)
 
 // PID constants (adjust according to your needs)
 #define KP 1.0
 #define KI 0.0
 #define KD 0.0
+using namespace cv;
+using namespace std;
 
 mavros_msgs::State current_state;
 geometry_msgs::PoseStamped current_pose;
@@ -52,28 +57,46 @@ class ImageConverter
 
   cv::Mat depth_mask;
   bool is_depth_mask = false;
+  string img_name;
 
 public:
-  ImageConverter()
-    : it_(nh_)
+  ImageConverter(string my_name)
+    : it_(nh_),  img_name(my_name)
   {
     // Subscrive to input video feed and publish output video feed
     image_sub_ = it_.subscribe("/camera/rgb/image_raw", 1,
       &ImageConverter::imageCb, this);
     // depth_image_sub_ = it_.subscribe("/camera/depth/image_raw", 1,
     //   &ImageConverter::depthImageCb, this);
-    // image_pub_ = it_.advertise("/image_converter/output_video", 1);
+    image_pub_ = it_.advertise("/image_converter/output_video", 1);
 
-    // cv::namedWindow("source");
+    cv::namedWindow("source");
   }
 
   ~ImageConverter()
   {
-    // cv::destroyWindow("source");
+    cv::destroyWindow("source");
   }
   void imageCb(const sensor_msgs::ImageConstPtr& msg)
   {
     ROS_INFO("Image received");
+    cv_bridge::CvImagePtr cv_ptr;
+    try
+    {
+      cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
+    }
+    catch (cv_bridge::Exception& e)
+    {
+      ROS_ERROR("cv_bridge exception: %s", e.what());
+      return;
+    }
+    cv::Mat image = cv_ptr->image;
+    // cv::cvtColor(image, image, COLOR_BGR2RGB);
+    // namedWindow("source", WINDOW_AUTOSIZE);
+    cv::imshow("source", image);
+    imwrite(img_name, image);
+    cv::waitKey(3); 
+    // image_pub_.publish(msg_out);
   }
 };
 // public:
@@ -114,7 +137,7 @@ int main(int argc, char **argv) {
     ros::ServiceClient land_client = nh.serviceClient<mavros_msgs::CommandTOL>(
             "mavros/cmd/land");
     // ros::Subscriber camera_sub = nh.subscribe<&ImageConverter::imageCb>("/camera/rgb/image_raw");
-    ImageConverter ic;
+    // ImageConverter ic;
 
     // ros::Subscriber camera_sub = nh.subscribe<mavros_msgs::imageCb>("/camera/rgb/image_raw", 1, state_im);
 
@@ -178,25 +201,85 @@ int main(int argc, char **argv) {
     // (You can add your image processing code here if needed)
 
     // Go to the first waypoint (hover)
-    ros::Time start_time = ros::Time::now();
-    double integral_z = 0.0;
-    double prev_error_z = 0.0;
+    // ros::Time start_time = ros::Time::now();
+    // double integral_z = 0.0;
+    // double prev_error_z = 0.0;
 
-    while (ros::ok() && (ros::Time::now() - start_time).toSec() < HOVER_DURATION) {
-        // Compute PID for z-axis
-        double target_z = FLIGHT_ALTITUDE;
-        double current_z = current_pose.pose.position.z;
-        double output_z = compute_pid(target_z, current_z, prev_error_z, integral_z);
+    // double ImagePoints[5][3] = {{20.6833, 18.288, 38}, {20.6833, 36.576, 38}, {20.6833, 54.864, 38}, {20.6833, 73.152, 38}, {20.6833, 91.44, 38}};
+    double ImagePoints[4][3] = {{20.6833, 21.9456, 38}, {20.6833, 43.8912, 38}, {20.6833, 65.8368, 38}, {20.6833, 87.7824, 38}};
+    std::vector<geometry_msgs::PoseStamped> waypoints;
+    for (const auto point : ImagePoints) {
+            geometry_msgs::PoseStamped waypoint;
 
-        // Update position target
-        target.position.x = HOVER_X;
-        target.position.y = HOVER_Y;
-        target.position.z = FLIGHT_ALTITUDE + output_z;
+            waypoint.pose.position.x = point[0];
+            waypoint.pose.position.y = point[1];
+            waypoint.pose.position.z = point[2];
 
-        local_pos_pub.publish(target);
-        ros::spinOnce();
-        rate.sleep();
+            // ROS_INFO("Reading waypoints from txt file: x=%f, y=%f, z=%f", lat, lon, alt_ft);
+            waypoints.push_back(waypoint);
+        }
+
+    // std::vector<geometry_msgs::PoseStamped> waypoints = [];
+    int counter = 1;
+    for (const auto& waypoint : waypoints) {
+        string temp = "test_" + to_string(counter) + "_.jpg";
+        ImageConverter ic(temp);
+        ros::Time waypoint_start_time = ros::Time::now();
+        double lat = waypoint.pose.position.x;
+        double lon = waypoint.pose.position.y;
+        double alt_ft = waypoint.pose.position.z;
+        ROS_INFO("Flying to the following waypoint: x=%f, y=%f, z=%f", lat, lon, alt_ft);
+
+        while (ros::ok() && (ros::Time::now() - waypoint_start_time).toSec() < 20.0) {
+            target.position.x = waypoint.pose.position.x;
+            target.position.y = waypoint.pose.position.y;
+            target.position.z = waypoint.pose.position.z;
+
+            local_pos_pub.publish(target);
+            ros::spinOnce();
+            rate.sleep();
+        }
+        counter++;
     }
+    // for(int i = 0; i < 5; ++i) {
+    //   while (ros::ok() && (ros::Time::now() - start_time).toSec() < HOVER_DURATION) {
+    //     // Compute PID for z-axis
+    //     double target_z = FLIGHT_ALTITUDE;
+    //     double current_z = current_pose.pose.position.z;
+    //     double output_z = compute_pid(target_z, current_z, prev_error_z, integral_z);
+
+    //     // Update position target
+    //     target.position.x = ;
+    //     target.position.y = HOVER_Y;
+    //     target.position.z = FLIGHT_ALTITUDE + output_z;
+
+    //     local_pos_pub.publish(target);
+    //     ros::spinOnce();
+    //     rate.sleep();
+    //   }
+
+    // }
+
+    // // Go to the first waypoint (hover)
+    // ros::Time start_time = ros::Time::now();
+    // double integral_z = 0.0;
+    // double prev_error_z = 0.0;
+
+    // while (ros::ok() && (ros::Time::now() - start_time).toSec() < HOVER_DURATION) {
+    //     // Compute PID for z-axis
+    //     double target_z = FLIGHT_ALTITUDE;
+    //     double current_z = current_pose.pose.position.z;
+    //     double output_z = compute_pid(target_z, current_z, prev_error_z, integral_z);
+
+    //     // Update position target
+    //     target.position.x = HOVER_X;
+    //     target.position.y = HOVER_Y;
+    //     target.position.z = FLIGHT_ALTITUDE + output_z;
+
+    //     local_pos_pub.publish(target);
+    //     ros::spinOnce();
+    //     rate.sleep();
+    // }
 
     // Land
     mavros_msgs::CommandTOL land_cmd;

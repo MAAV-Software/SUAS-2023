@@ -15,7 +15,7 @@ terminal 4:
 1. cd /SUAS-2023/software_ws
 2. catkin_make
 3. source ./devel/setup.bash
-4. rosrun example [desired file]
+4. rosrun [workspace name] [desired file (check tab for options or look to software_ws/src/suas/CMakeLists for desired file)]
 
 To view camera:
 two terminals

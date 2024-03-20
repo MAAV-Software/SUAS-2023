@@ -141,13 +141,15 @@ int main(int argc, char **argv) {
     while (ros::ok() && !current_state.armed) {
         if (current_state.mode != "OFFBOARD" && (ros::Time::now() - last_request > ros::Duration(5.0))) {
             if (set_mode_client.call(offb_set_mode) && offb_set_mode.response.mode_sent) {
-                ROS_INFO("Offboard enabled");
+                // ROS_INFO("Offboard enabled");
+                std::cout << "Offboard enabled\n";
             }
             last_request = ros::Time::now();
         } else {
             if (!current_state.armed && (ros::Time::now() - last_request > ros::Duration(5.0))) {
                 if (arming_client.call(arm_cmd) && arm_cmd.response.success) {
-                    ROS_INFO("Vehicle armed");
+                    // ROS_INFO("Vehicle armed");
+                    std::cout << "Vehicle armed\n";
                 }
                 last_request = ros::Time::now();
             }
@@ -187,8 +189,8 @@ int main(int argc, char **argv) {
         double lat = waypoint.pose.position.x;
         double lon = waypoint.pose.position.y;
         double alt_ft = waypoint.pose.position.z;
-        ROS_INFO("Flying to the following waypoint: x=%f, y=%f, z=%f", lat, lon, alt_ft);
-
+        // ROS_INFO("Flying to the following waypoint: x=%f, y=%f, z=%f", lat, lon, alt_ft);
+        std::cout << "Flying to the following waypoint: x = " << lat << ", y = " << lat << ", z = " << alt_ft << "\n";
         while (ros::ok() && (ros::Time::now() - waypoint_start_time).toSec() < 50.0) {
             target.position.x = waypoint.pose.position.x;
             target.position.y = waypoint.pose.position.y;
@@ -221,7 +223,8 @@ int main(int argc, char **argv) {
 
 
     if (land_client.call(land_cmd) && land_cmd.response.success) {
-        ROS_INFO("Landing...");
+        // ROS_INFO("Landing...");
+        std::cout << "Landing...\n";
     }
 
     return 0;

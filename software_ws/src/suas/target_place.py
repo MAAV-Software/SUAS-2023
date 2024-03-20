@@ -23,8 +23,8 @@ dRadius = 6.096 # the radius of a drop point
 # bonudary for drop zone, 70 by 360 ft, converted to meters
 # Note: this should be shifted 10 meters away from (0, 0, 0)
 drop_boundary = [(10, 0, 0), (31.366, 0, 0), (31.366, 109.728, 0), (10, 109.728, 0)]
-
-drop_points = [(10, 10, 0)]
+random.seed(10)
+drop_points = []
 # drop_points.append((random.uniform(10 + dRadius, 31.366 - dRadius), random.uniform(dRadius, 109.728 - dRadius), 0))
 
 # This while loop runs until 5 points are generated, which don't overlap
