@@ -89,7 +89,7 @@ RUN rosdep update
 
 # Mavlink
 WORKDIR /usr/include
-RUN git clone https://github.com/mavlink/c_library_v2.git --recursive
+RUN git clone https://github.com/mavlink/c_library_v2.git --recursive -j8
 RUN mv /usr/include/c_library_v2/* /usr/include
 RUN rm -r /usr/include/c_library_v2
 
@@ -101,16 +101,17 @@ RUN rm -r /usr/include/c_library_v2
 
 # PX4
 WORKDIR /root
-RUN git clone https://github.com/PX4/PX4-Autopilot.git --recursive
+RUN git clone https://github.com/PX4/PX4-Autopilot.git --recursive -j8
 RUN ./PX4-Autopilot/Tools/setup/ubuntu.sh
 # PX4 sitl
-RUN git clone https://github.com/PX4/sitl_gazebo.git --recursive
-WORKDIR /root/sitl_gazebo
-RUN mkdir build
-WORKDIR /root/sitl_gazebo/build
-RUN cmake ..
-RUN make -j8
-RUN make install
+# this is already included in PX4
+# RUN git clone https://github.com/PX4/sitl_gazebo.git --recursive
+# WORKDIR /root/sitl_gazebo
+# RUN mkdir build
+# WORKDIR /root/sitl_gazebo/build
+# RUN cmake ..
+# RUN make -j8
+# RUN make install
 
 # qgroundcontrol
 RUN usermod -a -G dialout root
