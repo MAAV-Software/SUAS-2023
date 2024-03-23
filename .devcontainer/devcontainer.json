@@ -1,15 +1,19 @@
 {
-  "dockerFile": "Dockerfile",
-  "containerEnv": {
-    "DISPLAY": "${localEnv:DISPLAY}"
-  },
-  "runArgs": [
-    "--privileged",
-    "--network=host",
+	"dockerFile": "Dockerfile",
+	// "dockerFile": "../docker/Dockerfile.dev",
+	"containerEnv": {
+		"DISPLAY": "${localEnv:DISPLAY}"
+	},
+	"runArgs": [
+		"--privileged",
+		"--network=host",
+		// https://docs.docker.com/config/containers/resource_constraints/
 		"--memory=6g",
-		"--cpus=6"
-  ],
-  
+		"--cpus=6",
+		// https://answers.ros.org/question/336963/rosout-high-memory-usage/
+		// Equal sign needed: https://stackoverflow.com/questions/73106697/how-to-setup-ulimit-nofile-in-devcontainer-vscode
+		"--ulimit=nofile=1024:4096"
+	],
 	"customizations": {
 		"vscode": {
 			"settings": {
@@ -19,14 +23,13 @@
 						"path": "/bin/bash"
 					}
 				}
-			}
-      ,
+			},
 			"extensions": [
 				"ms-python.python",
 				"ms-python.autopep8",
 				"ms-vscode.cpptools",
-			// 	"ms-python.vscode-pylance",
-			// 	"ms-azuretools.vscode-docker",
+				// 	"ms-python.vscode-pylance",
+				// 	"ms-azuretools.vscode-docker",
 				"github.copilot",
 				"github.copilot-chat"
 			]

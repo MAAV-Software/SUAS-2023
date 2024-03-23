@@ -51,10 +51,12 @@ RUN apt install -y \
 	zip \
 	# ros stuff, where install through apt is recommended
 	python3-rosinstall-generator \
+	ros-noetic-vision-visp \
+	libgeographic-dev \
 	# mavros
 	ros-noetic-mavros \
 	ros-noetic-mavros-extras \
-	ros-noetic-rqt 
+	ros-noetic-rqt
 
 # not really needed, should be installed via pip?
 # python-argparse \
@@ -63,6 +65,9 @@ RUN apt install -y \
 # python-yaml 
 # python3-jinja2 \
 # python3-toml \
+
+# Symlink geographiclib's cmake files into the correct place for cmake 3.16
+RUN ln -s /usr/share/cmake/geographiclib/FindGeographicLib.cmake /usr/share/cmake-3.16/Modules/
 
 # not installed by default
 # apt-get remove modemmanager -y
@@ -121,6 +126,8 @@ RUN chmod a+x /usr/bin/QGroundControl.AppImage
 
 # Dont need to source the ROS entrypoint file, already done in the base image
 # RUN source /ros_entrypoint.sh
+# Add setup to bashrc
+RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
 
 WORKDIR /root
 
