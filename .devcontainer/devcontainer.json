@@ -5,7 +5,9 @@
   },
   "runArgs": [
     "--privileged",
-    "--network=host"
+    "--network=host",
+		"--memory=6g",
+		"--cpus=6"
   ],
   
 	"customizations": {
@@ -22,6 +24,7 @@
 			"extensions": [
 				"ms-python.python",
 				"ms-python.autopep8",
+				"ms-vscode.cpptools",
 			// 	"ms-python.vscode-pylance",
 			// 	"ms-azuretools.vscode-docker",
 				"github.copilot",

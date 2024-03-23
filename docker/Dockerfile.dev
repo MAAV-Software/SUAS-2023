@@ -88,8 +88,7 @@ RUN pip install \
 RUN rosdep update
 
 # Mavlink
-WORKDIR /usr/include
-RUN git clone https://github.com/mavlink/c_library_v2.git --recursive -j8
+RUN git clone --recursive --jobs 8 https://github.com/mavlink/c_library_v2.git /usr/include/c_library_v2
 RUN mv /usr/include/c_library_v2/* /usr/include
 RUN rm -r /usr/include/c_library_v2
 
@@ -100,12 +99,11 @@ RUN rm -r /usr/include/c_library_v2
 # both of which are already installed in the image
 
 # PX4
-WORKDIR /root
-RUN git clone https://github.com/PX4/PX4-Autopilot.git --recursive -j8
-RUN ./PX4-Autopilot/Tools/setup/ubuntu.sh
+RUN git clone --recursive --jobs 8 https://github.com/PX4/PX4-Autopilot.git /opt/PX4-Autopilot
+RUN /opt/PX4-Autopilot/Tools/setup/ubuntu.sh
 # PX4 sitl
 # this is already included in PX4
-# RUN git clone https://github.com/PX4/sitl_gazebo.git --recursive
+# RUN git clone --recursive https://github.com/PX4/sitl_gazebo.git
 # WORKDIR /root/sitl_gazebo
 # RUN mkdir build
 # WORKDIR /root/sitl_gazebo/build
@@ -121,8 +119,8 @@ RUN chmod a+x /usr/bin/QGroundControl.AppImage
 # MavROS
 # already installed earlier with apt
 
-# Source the ROS entrypoint file
-RUN source /opt/ros/$ROS_DISTRO/setup.bash
+# Dont need to source the ROS entrypoint file, already done in the base image
+# RUN source /ros_entrypoint.sh
 
 WORKDIR /root
 

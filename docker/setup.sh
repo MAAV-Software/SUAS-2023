@@ -24,13 +24,12 @@ while [[ ${login_success} == false ]]; do
 done
 
 printf "\n *** Installing QEMU *** \n"
+# https://docs.docker.com/build/building/multi-platform/#qemu
 docker run --privileged --rm tonistiigi/binfmt --install all
-# could also use this cmd, but it has some issues sometimes
-# docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
 builder_name="maav_builder"
 printf "\n *** Creating a new builder %s *** \n" "$builder_name"
-docker buildx create --name ${builder_name} --use
+docker buildx create --name ${builder_name} --use --driver docker-container
 docker buildx inspect --bootstrap
 
 printf "\n ** If you saw no errors, CONGRATULATIONS! You can now use the scripts to build and push to dockerhub. *** \n"
