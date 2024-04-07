@@ -23,8 +23,8 @@ results_dir = os.path.join(data_dir, "results")
 
 # Define hyperparameters
 batch_size = 8
-lr = 0.01
-num_epochs = 5
+lr = 0.05
+num_epochs = 4
 
 # Define custom dataset class
 class DropZoneDataset(Dataset):
@@ -45,9 +45,9 @@ class DropZoneDataset(Dataset):
         # resize image 
         image = cv2.imread(image_path)
         #print(image.shape)
-        h, w, _ = image.shape
+        h, w, dims = image.shape
         #pdb.set_trace()
-        image = cv2.resize(image, (1000, 480)) 
+        image = cv2.resize(image, (1000, 480))  # h, w
 
         # metadata
         with open(metadata_path, 'r') as f:
@@ -55,7 +55,7 @@ class DropZoneDataset(Dataset):
         drop_locations = []
         for line in data:
             coords = line.split("(")[1].split(")")[0].split(",")
-            x, y = int(coords[0]), int(coords[1])
+            y, x = int(coords[0]), int(coords[1])
             drop_locations.append((x/10, y/10))
 
         # Padding to resolve error
@@ -103,6 +103,7 @@ def train(model, train_loader, criterion, optimizer, num_epochs):
             optimizer.zero_grad()
 
             outputs = model(inputs)
+            #outputs = model(inputs.flip(-1))
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
@@ -151,14 +152,14 @@ def highlight_drop_locations(model, test_dataset, predicted_locations_list):
     pred_location = pred_location.squeeze()
     #pdb.set_trace()
     
-    image = inputs.squeeze().cpu().numpy().transpose(1,2,0)
+    image = inputs.squeeze().cpu().numpy().transpose(1,2,0) #change this as well
     image = np.ascontiguousarray(image)
     
     #pred_location_np = pred_location.detach().cpu().numpy()
     #pdb.set_trace()
     for loc in pred_location:
-        st = (int(loc[0]) - square_half_len, int(loc[1]) - square_half_len)
-        ed = (int(loc[0]) + square_half_len, int(loc[1]) + square_half_len)
+        st = (int(loc[1]) - square_half_len, int(loc[0]) - square_half_len)
+        ed = (int(loc[1]) + square_half_len, int(loc[0]) + square_half_len)
         cv2.rectangle(image, st, ed, (0, 0, 230), 10)
 
     print("predicted location: ", pred_location)

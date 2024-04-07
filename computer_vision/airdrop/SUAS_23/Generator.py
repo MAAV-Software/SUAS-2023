@@ -85,7 +85,7 @@ def save_random_color_image(filename, img_h, img_w):
         draw.rectangle([img_w*.40, img_h*.20, img_w*.60,
                        img_h*.80], fill=selected_color)
 
-    font = ImageFont.truetype("Roboto/Roboto-Black.ttf", size=50)
+    font = ImageFont.truetype("Roboto/Roboto-Black.ttf", size=250)
     draw.text((img_h * 0.465, img_w * 0.465),
               selected_symbol, color2, font=font)
 
@@ -115,22 +115,22 @@ def generate_img(shape, image_color, symbol, symbol_color):
         draw.pieslice([center[0]-radius, center[1]-radius, center[0] +
                       radius, center[1]+radius], 0, 180, fill=selected_color)
     elif selected_shape == "QuarterCircle":
-        center = (0.325*img_w, 0.35*img_h)
+        center = (0.185*img_w, 0.2*img_h)
         draw.pieslice([center[0]-radius, center[1]-radius, center[0] +
-                      radius, center[1]+radius], 0, 90, fill=selected_color)
+                      radius * 1.5, center[1]+radius * 1.5], 0, 90, fill=selected_color)
     elif selected_shape == "Star":
         # Define points for a star
         points = [
-            (0.5*img_w, 0.1*img_h),
-            (0.61*img_w, 0.5*img_h),
-            (1.0*img_w, 0.5*img_h),
-            (0.7*img_w, 0.7*img_h),
-            (0.8*img_w, 1.0*img_h),
-            (0.5*img_w, 0.8*img_h),
-            (0.2*img_w, 1.0*img_h),
-            (0.3*img_w, 0.7*img_h),
-            (0, 0.5*img_h),
-            (0.39*img_w, 0.5*img_h)
+            (0.5*img_w, 0.05*img_h),
+            (0.61*img_w, 0.4*img_h),
+            (1.0*img_w, 0.4*img_h),
+            (0.7*img_w, 0.6*img_h),
+            (0.8*img_w, .9*img_h),
+            (0.5*img_w, 0.7*img_h),
+            (0.2*img_w, .9*img_h),
+            (0.3*img_w, 0.8*img_h),
+            (0, 0.4*img_h),
+            (0.39*img_w, 0.4*img_h)
         ]
         draw.polygon(points, fill=selected_color)
     elif selected_shape == "Pentagon":
@@ -162,8 +162,8 @@ def generate_img(shape, image_color, symbol, symbol_color):
         draw.rectangle([img_w*.40, img_h*.20, img_w*.60,
                        img_h*.80], fill=selected_color)
 
-    font = ImageFont.truetype("Roboto/Roboto-Black.ttf", size=50)
-    draw.text((img_h * 0.465, img_w * 0.465),
+    font = ImageFont.truetype("Roboto/Roboto-Black.ttf", size=200)
+    draw.text((img_h * 0.375, img_w * 0.265),
               selected_symbol, color2, font=font)
 
     return img
@@ -210,6 +210,11 @@ def save_all_images(folder_name, img_h, img_w, labels_file):
                     img.save(filename)
                     image_number += 1
 
+                    img.show()
+                    
+                    exit()
+                    
+
 if __name__ == "__main__":
     if os.path.exists(".data/"):
         shutil.rmtree(".data/")
@@ -220,8 +225,8 @@ if __name__ == "__main__":
     os.mkdir(folder_name)
 
     labels_output_fname = "labels.txt"
-    if os.path.exists(labels_output_fname):
-        os.remove(labels_output_fname)
+    # if os.path.exists(labels_output_fname):
+    #     os.remove(labels_output_fname)
     labels = open(labels_output_fname, "w")
     save_all_images(folder_name, 500, 500, labels)
     labels.close()
