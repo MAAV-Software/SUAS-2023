@@ -5,9 +5,11 @@
 #include <mavros_msgs/CommandTOL.h>
 #include <mavros_msgs/PositionTarget.h>
 #include <geometry_msgs/PoseStamped.h>
+// #include <sensor_msgs/NavSatFix.h>  // <-- comment this out if program isn't working
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <geodetic_utils/geodetic_conv.hpp>
 
 #include <GeographicLib/Geocentric.hpp>
 #include <GeographicLib/LocalCartesian.hpp>
@@ -24,7 +26,9 @@
 
 mavros_msgs::State current_state;
 geometry_msgs::PoseStamped current_pose;
-
+geodetic_converter::GeodeticConverter geodetic_converter_;
+// ros::NodeHandle nh_private_;
+// std::string coordinate_type_;
 void state_cb(const mavros_msgs::State::ConstPtr& msg) {
     current_state = *msg;
 }
@@ -101,6 +105,7 @@ int main(int argc, char **argv) {
             "mavros/state", 10, state_cb);
     ros::Subscriber pose_sub = nh.subscribe<geometry_msgs::PoseStamped>(
             "mavros/local_position/pose", 10, pose_cb);
+    // ros::Subscriber gps_sub = nh.subscribe<sensor_msgs::NavSatFix>("mavros/")
     ros::Publisher local_pos_pub = nh.advertise<mavros_msgs::PositionTarget>(
             "mavros/setpoint_raw/local", 10);
     ros::ServiceClient arming_client = nh.serviceClient<mavros_msgs::CommandBool>(
@@ -109,9 +114,8 @@ int main(int argc, char **argv) {
             "mavros/set_mode");
     ros::ServiceClient land_client = nh.serviceClient<mavros_msgs::CommandTOL>(
             "mavros/cmd/land");
-
+    
     ros::Rate rate(20.0);
-
     // Wait for FCU connection
     while (ros::ok() && current_state.connected) {
         ros::spinOnce();
@@ -141,15 +145,15 @@ int main(int argc, char **argv) {
     while (ros::ok() && !current_state.armed) {
         if (current_state.mode != "OFFBOARD" && (ros::Time::now() - last_request > ros::Duration(5.0))) {
             if (set_mode_client.call(offb_set_mode) && offb_set_mode.response.mode_sent) {
-                // ROS_INFO("Offboard enabled");
-                std::cout << "Offboard enabled\n";
+                ROS_INFO("Offboard enabled");
+                //std::cout << "Offboard enabled\n";
             }
             last_request = ros::Time::now();
         } else {
             if (!current_state.armed && (ros::Time::now() - last_request > ros::Duration(5.0))) {
                 if (arming_client.call(arm_cmd) && arm_cmd.response.success) {
-                    // ROS_INFO("Vehicle armed");
-                    std::cout << "Vehicle armed\n";
+                    ROS_INFO("Vehicle armed");
+                    // std::cout << "Vehicle armed\n";
                 }
                 last_request = ros::Time::now();
             }
@@ -157,6 +161,25 @@ int main(int argc, char **argv) {
         local_pos_pub.publish(target);
         ros::spinOnce();
         rate.sleep();
+    }
+
+    while (!geodetic_converter_.isInitialised()) {
+        // LOG_FIRST_N(INFO, 1) << "Waiting for GPS reference parameters...";
+
+        double latitude = 0;
+        double longitude = 0;
+        double altitude= 0;
+
+        // if (nh_private_.getParam("/gps_ref_latitude", latitude) &&
+        //     nh_private_.getParam("/gps_ref_longitude", longitude) &&
+        //     nh_private_.getParam("/gps_ref_altitude", altitude)) {
+            geodetic_converter_.initialiseReference(latitude, longitude, altitude);
+        // } else {
+            // LOG(INFO) << "GPS reference not ready yet, use set_gps_reference_node to "
+            //         "set it.";
+            ROS_INFO(" initalized");
+        ros::Duration(0.5).sleep();
+        
     }
 
     // Hover for a specified duration
@@ -184,21 +207,50 @@ int main(int argc, char **argv) {
     std::vector<geometry_msgs::PoseStamped> waypoints = read_waypoints("way_points.txt");
 
     // Fly to waypoints
+    // waypoints.pop_front();
+    int skip_first = 0;
     for (const auto& waypoint : waypoints) {
+        if(skip_first == 0)
+        {
+            skip_first = 1;
+        }
+        else {
         ros::Time waypoint_start_time = ros::Time::now();
         double lat = waypoint.pose.position.x;
         double lon = waypoint.pose.position.y;
         double alt_ft = waypoint.pose.position.z;
-        // ROS_INFO("Flying to the following waypoint: x=%f, y=%f, z=%f", lat, lon, alt_ft);
-        std::cout << "Flying to the following waypoint: x = " << lat << ", y = " << lat << ", z = " << alt_ft << "\n";
+        // double initial_latitude;
+        // double initial_longitude;
+        // double initial_altitude;
+        double target_x;
+        double target_y;
+        double target_z;
+        // std::vector<double> height;
+        // std::vector<double> easting;
+        // std::vector<double> northing;
+      // Convert GPS point to ENU co-ordinates.
+      // NB: waypoint altitude = desired height above reference + registered
+      // reference altitude.
+        // geodetic_converter_.getReference(&initial_latitude, &initial_longitude,
+        //                                &initial_altitude);
+        geodetic_converter_.geodetic2Enu(
+          lat, lon, alt_ft*.3048,
+          &target_x, &target_y, &target_z);
+    
+        ROS_INFO("Flying to the following waypoint: x=%f, y=%f, z=%f", lat, lon, alt_ft);
+        std::cout << "Flying to the following waypoint: x = " << lat << ", y = " << lon << ", z = " << alt_ft << "\n";
+        ROS_INFO("converted to the following waypoint: x=%f, y=%f, z=%f", target_x, target_y, target_z);
+
+        
         while (ros::ok() && (ros::Time::now() - waypoint_start_time).toSec() < 50.0) {
-            target.position.x = waypoint.pose.position.x;
-            target.position.y = waypoint.pose.position.y;
-            target.position.z = waypoint.pose.position.z;
+            target.position.x = target_x;
+            target.position.y = target_y;
+            target.position.z = target_z;
 
             local_pos_pub.publish(target);
             ros::spinOnce();
             rate.sleep();
+        }
         }
     }
 
@@ -228,4 +280,4 @@ int main(int argc, char **argv) {
     }
 
     return 0;
-}
+    }

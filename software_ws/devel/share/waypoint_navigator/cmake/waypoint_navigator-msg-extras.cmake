@@ -1,0 +1,2 @@
+set(waypoint_navigator_MESSAGE_FILES "")
+set(waypoint_navigator_SERVICE_FILES "/SUAS-2023/software_ws/src/waypoint_navigator/srv/ExecutePathFromFile.srv;/SUAS-2023/software_ws/src/waypoint_navigator/srv/GoToHeight.srv;/SUAS-2023/software_ws/src/waypoint_navigator/srv/GoToPoseWaypoints.srv;/SUAS-2023/software_ws/src/waypoint_navigator/srv/GoToWaypoint.srv;/SUAS-2023/software_ws/src/waypoint_navigator/srv/GoToWaypoints.srv")

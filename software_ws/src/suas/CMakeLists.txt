@@ -7,6 +7,10 @@ project(suas)
 find_package(GeographicLib REQUIRED)
 include_directories(${GeographicLib_INCLUDE_DIRS})
 
+set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};/SUAS-2023/software_ws/src/geodetic_utils")
+find_package(geodetic_utils REQUIRED)
+include_directories(${geodetic_utils_INCLUDE_DIRS})
+
 
 
 ## Find catkin macros and libraries
@@ -253,4 +257,3 @@ target_link_libraries(suas_trajectory_flight ${catkin_LIBRARIES} ${GeographicLib
 
 add_executable(suas_collisionRegistering collisionRegistering.cpp)
 target_link_libraries(suas_collisionRegistering ${catkin_LIBRARIES})
-

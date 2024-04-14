@@ -190,7 +190,7 @@
 </model>
 <model name='user_way_Point_2'>
 	<static>1</static>
-	<pose>-323.8771819602925 -610.8786032254696 113.26159378728438 0 -0 0</pose>
+	<pose>-33.353161274008215 686.0095076146638 34.51581724351868 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -237,7 +237,7 @@
 </model>
 <model name='user_way_Point_3'>
 	<static>1</static>
-	<pose>35.98284761585319 -20.480554491905973 105.32149300879969 0 -0 0</pose>
+	<pose>-670.8357531529497 420.02840221935503 36.71321095619202 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -284,7 +284,7 @@
 </model>
 <model name='user_way_Point_4'>
 	<static>1</static>
-	<pose>635.9395451157528 323.2068862915698 109.71809107196071 0 -0 0</pose>
+	<pose>-180.58649837376183 -64.29651028767292 33.89274882591516 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -331,7 +331,7 @@
 </model>
 <model name='user_way_Point_5'>
 	<static>1</static>
-	<pose>164.5911218473562 829.0722456874765 118.65990484066702 0 -0 0</pose>
+	<pose>346.3889116911337 380.3478657194803 33.30025899666846 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -378,7 +378,7 @@
 </model>
 <model name='user_way_Point_6'>
 	<static>1</static>
-	<pose>26.32758916490027 151.61206648401824 121.44372724026441 0 -0 0</pose>
+	<pose>879.3191087984985 -57.236915214675676 31.669018459991367 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -425,7 +425,7 @@
 </model>
 <model name='user_way_Point_7'>
 	<static>1</static>
-	<pose>-456.53957911496036 646.4942692465752 120.65294030949256 0 -0 0</pose>
+	<pose>1269.910131897366 -623.9674237624238 36.05620262515247 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -472,7 +472,7 @@
 </model>
 <model name='user_way_Point_8'>
 	<static>1</static>
-	<pose>-1036.4290808371898 269.9344967036897 123.46930886170207 0 -0 0</pose>
+	<pose>652.1952554533452 -932.5565697300677 36.47517004331053 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
