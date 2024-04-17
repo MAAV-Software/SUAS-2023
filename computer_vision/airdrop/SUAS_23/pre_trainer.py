@@ -1,5 +1,5 @@
 import os
-from PIL import Image
+from PIL import Image, ImageFilter
 import torch
 from torch.utils.data import Dataset, DataLoader, random_split
 from torchvision import transforms
@@ -52,6 +52,8 @@ class dataset_parser(Dataset):
     def __getitem__(self, idx):
         img_name = os.path.join(self.root_dir, self.file_list[idx])
         image = Image.open(img_name).convert("RGB")
+
+        image = image.filter(ImageFilter.GaussianBlur(radius = 15))
 
         # Extract labels from the filename
         label_parts = os.path.splitext(self.file_list[idx])[0].split('_')
@@ -159,7 +161,7 @@ test_dataloader = DataLoader(test_dataset, batch_size=32, shuffle=False, num_wor
 
 
 
-num_epochs = 1
+num_epochs = 5
 print("Starting training:")
 
 
