@@ -242,7 +242,7 @@ int main(int argc, char **argv) {
         ROS_INFO("converted to the following waypoint: x=%f, y=%f, z=%f", target_x, target_y, target_z);
 
         
-        while (ros::ok() && (ros::Time::now() - waypoint_start_time).toSec() < 50.0) {
+        while (ros::ok() && (ros::Time::now() - waypoint_start_time).toSec() < 70.0) {
             target.position.x = target_x;
             target.position.y = target_y;
             target.position.z = target_z;
@@ -256,7 +256,7 @@ int main(int argc, char **argv) {
 
     // Return to takeoff position
     ros::Time return_start_time = ros::Time::now();
-    while (ros::ok() && (ros::Time::now() - return_start_time).toSec() < 50.0) {
+    while (ros::ok() && (ros::Time::now() - return_start_time).toSec() < 70.0) {
         target.position.x = HOVER_X;
         target.position.y = HOVER_Y;
         target.position.z = FLIGHT_ALTITUDE;

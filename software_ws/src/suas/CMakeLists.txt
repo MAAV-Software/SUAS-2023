@@ -257,3 +257,9 @@ target_link_libraries(suas_trajectory_flight ${catkin_LIBRARIES} ${GeographicLib
 
 add_executable(suas_collisionRegistering collisionRegistering.cpp)
 target_link_libraries(suas_collisionRegistering ${catkin_LIBRARIES})
+
+add_executable(suas_hover suas_test_hover.cpp)
+target_link_libraries(suas_hover ${catkin_LIBRARIES})
+
+add_executable(suas_backforth suas_test_backforth.cpp)
+target_link_libraries(suas_backforth ${catkin_LIBRARIES})
