@@ -128,7 +128,7 @@ def generate_img(shape, image_color, symbol, symbol_color):
             (0.8*img_w, .9*img_h),
             (0.5*img_w, 0.7*img_h),
             (0.2*img_w, .9*img_h),
-            (0.3*img_w, 0.8*img_h),
+            (0.3*img_w, 0.6*img_h),
             (0, 0.4*img_h),
             (0.39*img_w, 0.4*img_h)
         ]
@@ -147,8 +147,8 @@ def generate_img(shape, image_color, symbol, symbol_color):
         # Define points for an equilateral triangle
         triangle = [
             (img_w * .50, img_h * .10),
-            (img_w * .90, img_h * .90),
-            (img_w * .10, img_h * .90),
+            (img_w * .90, img_h * .80),
+            (img_w * .10, img_h * .80),
         ]
         draw.polygon(triangle, fill=selected_color)
     elif selected_shape == "Rectangle":
@@ -157,15 +157,20 @@ def generate_img(shape, image_color, symbol, symbol_color):
                        img_w, .80 * img_h], fill=selected_color)
     elif selected_shape == "Cross":
         # Define points for a cross
-        draw.rectangle([img_w*.20, img_h*.40, img_w*.80,
+        draw.rectangle([img_w*.2, img_h*.40, img_w*.80,
                        img_h*.60], fill=selected_color)
         draw.rectangle([img_w*.40, img_h*.20, img_w*.60,
                        img_h*.80], fill=selected_color)
 
-    font = ImageFont.truetype("Roboto/Roboto-Black.ttf", size=200)
-    draw.text((img_h * 0.375, img_w * 0.265),
+    if selected_shape == "Cross":
+        font = ImageFont.truetype("Roboto/Roboto-Black.ttf", size=150)
+        draw.text((img_h * 0.4, img_w * 0.3),
               selected_symbol, color2, font=font)
 
+    else:
+        font = ImageFont.truetype("Roboto/Roboto-Black.ttf", size=200)
+        draw.text((img_h * 0.375, img_w * 0.265),
+              selected_symbol, color2, font=font)
     return img
 
 # to get the names for lableing
@@ -209,10 +214,6 @@ def save_all_images(folder_name, img_h, img_w, labels_file):
                     img = generate_img(selected_shape, selected_color, selected_symbol, color2)
                     img.save(filename)
                     image_number += 1
-
-                    img.show()
-                    
-                    exit()
                     
 
 if __name__ == "__main__":
