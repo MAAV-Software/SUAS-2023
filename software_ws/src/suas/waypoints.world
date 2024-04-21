@@ -25,7 +25,7 @@
 			<geometry>
 				<plane>
 					<normal>0 0 1</normal>
-					<size>100 100</size>
+					<size>250 250</size>
 				</plane>
 			</geometry>
 			<surface>
@@ -51,56 +51,13 @@
 			<geometry>
 				<plane>
 					<normal>0 0 1</normal>
-					<size>100 100</size>
+					<size>250 250</size>
 				</plane>
 			</geometry>
 			<material>
 				<script>
 					<uri>file://media/materials/scripts/gazebo.material</uri>
 					<name>Gazebo/Grey</name>
-				</script>
-			</material>
-		</visual>
-		<self_collide>0</self_collide>
-		<enable_wind>0</enable_wind>
-		<kinematic>0</kinematic>
-	</link>
-</model>
-<model name='asphalt_plane'>
-	<static>1</static>
-	<link name='link'>
-		<collision name='collision'>
-			<geometry>
-				<box>
-					<size>200 200 0.1</size>
-				</box>
-			</geometry>
-			<max_contacts>10</max_contacts>
-			<surface>
-				<contact>
-					<ode/>
-				</contact>
-				<bounce/>
-				<friction>
-					<torsional>
-						<ode/>
-					</torsional>
-					<ode/>
-				</friction>
-			</surface>
-		</collision>
-		<visual name='visual'>
-			<cast_shadows>0</cast_shadows>
-			<geometry>
-				<box>
-					<size>200 200 0.1</size>
-				</box>
-			</geometry>
-			<material>
-				<script>
-					<uri>model://asphalt_plane/materials/scripts</uri>
-					<uri>model://asphalt_plane/materials/textures</uri>
-					<name>vrc/asphalt</name>
 				</script>
 			</material>
 		</visual>
@@ -173,7 +130,7 @@
         <material>
           <script>
             <uri>file://media/materials/scripts/gazebo.material</uri>
-            <name>Gazebo/Red</name>
+            <name>Gazebo/Black</name>
           </script>
         </material>
       </visual>
@@ -190,7 +147,7 @@
         <material>
           <script>
             <uri>file://media/materials/scripts/gazebo.material</uri>
-            <name>Gazebo/Red</name>
+            <name>Gazebo/Black</name>
           </script>
         </material>
       </visual>
@@ -207,7 +164,7 @@
         <material>
           <script>
             <uri>file://media/materials/scripts/gazebo.material</uri>
-            <name>Gazebo/Red</name>
+            <name>Gazebo/Black</name>
           </script>
         </material>
       </visual>
@@ -224,7 +181,7 @@
         <material>
           <script>
             <uri>file://media/materials/scripts/gazebo.material</uri>
-            <name>Gazebo/Red</name>
+            <name>Gazebo/Black</name>
           </script>
         </material>
       </visual>
@@ -233,7 +190,7 @@
 </model>
 <model name='user_way_Point_2'>
 	<static>1</static>
-	<pose>-48.46170440774065 -535.5873004096447 110.67830293409448 0 -0 0</pose>
+	<pose>-33.353161274008215 686.0095076146638 34.51581724351868 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -280,7 +237,7 @@
 </model>
 <model name='user_way_Point_3'>
 	<static>1</static>
-	<pose>-400.9455388062588 -941.736831045689 121.05514606011744 0 -0 0</pose>
+	<pose>-670.8357531529497 420.02840221935503 36.71321095619202 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -327,7 +284,7 @@
 </model>
 <model name='user_way_Point_4'>
 	<static>1</static>
-	<pose>-901.93941215315 -746.2696163500739 103.23466897509803 0 -0 0</pose>
+	<pose>-180.58649837376183 -64.29651028767292 33.89274882591516 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -374,7 +331,7 @@
 </model>
 <model name='user_way_Point_5'>
 	<static>1</static>
-	<pose>-616.4869288148551 -1202.0318100101817 120.93233650048464 0 -0 0</pose>
+	<pose>346.3889116911337 380.3478657194803 33.30025899666846 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -421,7 +378,7 @@
 </model>
 <model name='user_way_Point_6'>
 	<static>1</static>
-	<pose>-1143.6300088987261 -1308.4388870231533 107.68903541025378 0 -0 0</pose>
+	<pose>879.3191087984985 -57.236915214675676 31.669018459991367 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -468,7 +425,7 @@
 </model>
 <model name='user_way_Point_7'>
 	<static>1</static>
-	<pose>-1597.9735479231126 -1020.7337535958558 103.63412352306887 0 -0 0</pose>
+	<pose>1269.910131897366 -623.9674237624238 36.05620262515247 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>
@@ -515,101 +472,7 @@
 </model>
 <model name='user_way_Point_8'>
 	<static>1</static>
-	<pose>-1591.363869107464 -482.9990524509749 121.47791461740805 0 -0 0</pose>
-<link name='link'>
-<gravity>0</gravity>
-	<inertial>
-	<mass>1</mass>
-	<inertia>
-		<ixx>0.0001</ixx>
-		<ixy>0</ixy>
-		<ixz>0</ixz>
-		<iyy>0.0001</iyy>
-		<iyz>0</iyz>
-		<izz>0.0001</izz>
-	</inertia>
-<pose> 0 0 0 0 -0 0</pose>
-</inertial>
-<collision name='collision'>
-	<geometry>
-		<sphere>
-			<radius>7.62</radius>
-		</sphere>
-	</geometry>
-	<surface>
-		<contact>
-			<collide_without_contact>1</collide_without_contact>
-		</contact>
-	</surface>
-</collision>
-<visual name='visual'>
-	<geometry>
-		<sphere>
-			<radius>7.62</radius>
-		</sphere>
-	</geometry>
-	<material>
-		<script>
-			<name>Gazebo/Blue</name>
-			<uri>file://media/materials/scripts/gazebo.material</uri>
-		</script>
-	</material>
-</visual>
-<self_collide>0</self_collide>
-<enable_wind>0</enable_wind>
-<kinematic>0</kinematic>
-</link>
-</model>
-<model name='user_way_Point_9'>
-	<static>1</static>
-	<pose>-1349.8392856791595 -963.4864832516955 113.75700732696843 0 -0 0</pose>
-<link name='link'>
-<gravity>0</gravity>
-	<inertial>
-	<mass>1</mass>
-	<inertia>
-		<ixx>0.0001</ixx>
-		<ixy>0</ixy>
-		<ixz>0</ixz>
-		<iyy>0.0001</iyy>
-		<iyz>0</iyz>
-		<izz>0.0001</izz>
-	</inertia>
-<pose> 0 0 0 0 -0 0</pose>
-</inertial>
-<collision name='collision'>
-	<geometry>
-		<sphere>
-			<radius>7.62</radius>
-		</sphere>
-	</geometry>
-	<surface>
-		<contact>
-			<collide_without_contact>1</collide_without_contact>
-		</contact>
-	</surface>
-</collision>
-<visual name='visual'>
-	<geometry>
-		<sphere>
-			<radius>7.62</radius>
-		</sphere>
-	</geometry>
-	<material>
-		<script>
-			<name>Gazebo/Blue</name>
-			<uri>file://media/materials/scripts/gazebo.material</uri>
-		</script>
-	</material>
-</visual>
-<self_collide>0</self_collide>
-<enable_wind>0</enable_wind>
-<kinematic>0</kinematic>
-</link>
-</model>
-<model name='user_way_Point_10'>
-	<static>1</static>
-	<pose>-1391.096196889656 -427.2960661943319 118.58142544971705 0 -0 0</pose>
+	<pose>652.1952554533452 -932.5565697300677 36.47517004331053 0 -0 0</pose>
 <link name='link'>
 <gravity>0</gravity>
 	<inertial>

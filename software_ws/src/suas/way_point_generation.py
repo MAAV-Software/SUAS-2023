@@ -2,6 +2,7 @@ import random
 import math
 import pyproj
 import chevron
+import pymap3d as pm
 starting_coord = (0, 0, 0) # degree starting position plus height
 # total_way_points = 10
 total_distance = 3/69 # 3 miles in degrees (1 degree = 69 miles)
@@ -77,12 +78,18 @@ with open('templates/world_template.mustache', 'r') as m:
     f.write(rendered_content)
     # print(rendered_content)
     
-
+lat0 = 0
+lon0 = 0
+h0 = 0
 
 for i in range(1, len(way_points)):
-    x, y = pyproj.transform(source_proj, target_proj, way_points[i][0], way_points[i][1])
+    lat = way_points[i][0]
+    lon = way_points[i][1]
+    h = way_points[i][2]
+    new_point = pm.geodetic2enu(lat, lon, h, lat0, lon0, h0)
+    # x, y = pyproj.transform(source_proj, target_proj, way_points[i][0], way_points[i][1])
     with open('templates/waypoint_template.mustache', 'r') as m:
-        rendered_content = chevron.render(m, {'point': (i+1), 'x': x, 'y': y, 'z': way_points[i][2]})
+        rendered_content = chevron.render(m, {'point': (i+1), 'x': new_point[0], 'y': new_point[1], 'z': new_point[2]*.3048})
         f.write(rendered_content)
     # f.write("\t<pose>" + str(25) + " " + str(25) + " " + str(25) + " 0 -0 0</pose>\n")
     #project the lat and long to x and y using WGS84 projection

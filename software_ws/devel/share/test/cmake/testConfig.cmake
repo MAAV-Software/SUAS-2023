@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /SUAS-2023/software_ws/devel/lib;/SUAS-2023/software_ws/devel/lib;/mission9-2022/software_ws/devel/lib;/opt/ros/noetic/lib)
+    foreach(path /SUAS-2023/software_ws/devel/lib;/SUAS-2023/software_ws/devel/lib;/root/catkin_ws/devel/lib;/opt/ros/noetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
