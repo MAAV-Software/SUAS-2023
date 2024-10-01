@@ -5,7 +5,6 @@ import numpy as np
 from PIL import Image, ImageDraw
 
 
-
 def generateRandFromFolder(folder_dir, image_selections):
     img_names = []
     # add all image names to the img_names container
@@ -13,7 +12,7 @@ def generateRandFromFolder(folder_dir, image_selections):
         if(image.endswith(".png")):
             img_names.append(image)
 
-    for i in range (0,5):
+    for i in range (0,4):
         temp = random.randrange(0, len(img_names)-1)
         if (temp not in image_selections):
             image_selections.append(img_names[temp])
@@ -52,8 +51,8 @@ def place_on_background(background_size, folder_path, image_selections, papers, 
         image_path = image_selections[i]
         overlapping = True
         while overlapping:
-            x = random.randint(0, background.width - paper.width)
-            y = random.randint(0, background.height - paper.height)
+            x = random.randint(100, background.width - paper.width - 100)
+            y = random.randint(100, background.height - paper.height - 100)
             if not len(placed_positions) == 0:
                 for (prevx, prevy, previmg) in placed_positions:
                     if((abs(prevx - x) > 500) or (abs(prevy - y) > 500)): # 500 pixels for determining overlapping
@@ -72,9 +71,8 @@ def place_on_background(background_size, folder_path, image_selections, papers, 
     
 
     insertionSort(placed_positions)
-    for i in range(0,5):
-        metadata.write(placed_positions[i][2] + " centered at (" + str(placed_positions[i][0])+ ',' + str(placed_positions[i][1]) + ")\n")
-        metadata.write("    Bounding box: (" + str(placed_positions[i][0]-10)+ ',' + str(placed_positions[i][1]-14) + "), (" + str(placed_positions[i][0]+11)+ ',' + str(placed_positions[i][1]+14) + ")\n")
+    for i in range(0,4):
+        metadata.write("1 " + str(placed_positions[i][0]/4000)+ ' ' + str(placed_positions[i][1]/3000) + ' ' + str(21/4000) + " " + str(28/4000) + "\n")
 
 def pointGreater(point1, point2):
     if(point1[1] == point2[1]):
