@@ -1,8 +1,8 @@
 import os
 import sys
 import random
+import numpy as np
 from PIL import Image, ImageDraw
-
 
 
 def generateRandFromFolder(folder_dir, image_selections):
@@ -12,26 +12,47 @@ def generateRandFromFolder(folder_dir, image_selections):
         if(image.endswith(".png")):
             img_names.append(image)
 
-    for i in range (0,5):
+    for i in range (0,4):
         temp = random.randrange(0, len(img_names)-1)
         if (temp not in image_selections):
             image_selections.append(img_names[temp])
         else:
             i = i-1
 
-def place_on_background(background_size, folder_path, image_selections, image_output_path, data_output_path, name):
+def place_on_paper(folder_dir, image_selections, papers):
+    paper_size = (21,28)
+    paper_color = (255, 255, 255)
+    
+
+    for i in range (len(image_selections)):
+        currImg = Image.open(os.path.join(folder_dir, image_selections[i]))
+        # change all pixels that match gray (128, 128, 128) to white
+        im = currImg.convert('RGB')
+        data = np.array(im)
+        mask = np.all(data[:,:,:3] == (128,128,128), axis = -1)
+        data[mask] = (255,255,255)
+        currImg = Image.fromarray(data)
+        currImg.thumbnail([19,19])
+        paper = Image.new("RGB", paper_size, paper_color)
+        paper.paste(currImg, (1, 4))
+        papers.append(paper)
+
+    return papers
+
+
+def place_on_background(background_size, folder_path, image_selections, papers, image_output_path, data_output_path, name):
     background_color = (128, 128, 128)
     background = Image.new("RGB", background_size, background_color)
 
     placed_positions = []
 
-    for image in image_selections:
-        currImg = Image.open(os.path.join(folder_path, image))
-        
+    for i in range(len(papers)):
+        paper = papers[i]
+        image_path = image_selections[i]
         overlapping = True
         while overlapping:
-            x = random.randint(0, background.width - currImg.width)
-            y = random.randint(0, background.height - currImg.height)
+            x = random.randint(100, background.width - paper.width - 100)
+            y = random.randint(100, background.height - paper.height - 100)
             if not len(placed_positions) == 0:
                 for (prevx, prevy, previmg) in placed_positions:
                     if((abs(prevx - x) > 500) or (abs(prevy - y) > 500)): # 500 pixels for determining overlapping
@@ -42,16 +63,16 @@ def place_on_background(background_size, folder_path, image_selections, image_ou
             else:
                 overlapping = False
             if(overlapping == False):
-                placed_positions.append((x,y, image))
-                background.paste(currImg, (x,y))
+                placed_positions.append((x + 10, y + 14, image_path))
+                background.paste(paper, (x,y))
 
     background.save(image_output_path + name + ".png")
     metadata = open(data_output_path + name + ".txt", "w+")
     
 
     insertionSort(placed_positions)
-    for i in range(0,5):
-        metadata.write(placed_positions[i][2] + " placed at (" + str(placed_positions[i][0])+ ',' + str(placed_positions[i][1]) + ")\n")
+    for i in range(0,4):
+        metadata.write("1 " + str(placed_positions[i][0]/4000)+ ' ' + str(placed_positions[i][1]/3000) + ' ' + str(21/4000) + " " + str(28/4000) + "\n")
 
 def pointGreater(point1, point2):
     if(point1[1] == point2[1]):
@@ -74,7 +95,9 @@ def generate_rand_configs(number, background_size, folder_dir, image_output_path
     for i in range(number):
         image_selections = []
         generateRandFromFolder(folder_dir, image_selections)
-        place_on_background(background_size, folder_dir, image_selections, image_output_path, data_output_path, name+str(i))
+        papers = []
+        place_on_paper(folder_dir, image_selections, papers)
+        place_on_background(background_size, folder_dir, image_selections, papers, image_output_path, data_output_path, name+str(i))
 
 
 def check_file_paths(file_path, image_output_path, data_output_path):
@@ -90,7 +113,7 @@ if __name__ == "__main__":
     
     current_file_path = os.path.abspath(__file__)
     folder_dir = os.path.join(os.path.dirname(current_file_path), '.data/training_images')
-    background_size = (10000, 4800)
+    background_size = (4000, 3000)
 
     file_path = ".data/full_drop_zone/"
     data_output_path = file_path + "metadata/"
